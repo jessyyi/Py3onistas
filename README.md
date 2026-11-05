@@ -33,6 +33,6 @@ LinkedIn Job Postings (2023–2024), available on Kaggle.
 
 ## Team Responsibilities
 
-- Jessy: Matching, Recommendation, Integration
+- Damir: Matching, Recommendation, Integration
 - Aileen: Data Engineering, Market Analytics
-- Damir: NLP, Feature Extraction, Evaluation
+- Jessy: NLP, Feature Extraction, Evaluation
