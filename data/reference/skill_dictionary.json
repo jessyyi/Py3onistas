@@ -1,0 +1,689 @@
+{
+  "version": "0.1.0",
+  "description": "Curated cross-occupation skill lexicon for JobScope keyword extraction MVP.",
+  "categories": [
+    "Data & Technology",
+    "Finance & Accounting",
+    "Marketing & Sales",
+    "Business & Management",
+    "Engineering",
+    "Healthcare & Administration"
+  ],
+  "skills": [
+    {
+      "name": "Python",
+      "category": "Data & Technology",
+      "aliases": [
+        "Python 3"
+      ]
+    },
+    {
+      "name": "SQL",
+      "category": "Data & Technology",
+      "aliases": [
+        "Structured Query Language"
+      ]
+    },
+    {
+      "name": "Excel",
+      "category": "Data & Technology",
+      "aliases": [
+        "Microsoft Excel",
+        "MS Excel"
+      ]
+    },
+    {
+      "name": "Tableau",
+      "category": "Data & Technology",
+      "aliases": [
+        "Tableau Desktop"
+      ]
+    },
+    {
+      "name": "Power BI",
+      "category": "Data & Technology",
+      "aliases": [
+        "Microsoft Power BI"
+      ]
+    },
+    {
+      "name": "R",
+      "category": "Data & Technology",
+      "aliases": [
+        "R language",
+        "R programming"
+      ]
+    },
+    {
+      "name": "Machine Learning",
+      "category": "Data & Technology",
+      "aliases": [
+        "ML"
+      ]
+    },
+    {
+      "name": "Deep Learning",
+      "category": "Data & Technology",
+      "aliases": [
+        "DL"
+      ]
+    },
+    {
+      "name": "Data Analysis",
+      "category": "Data & Technology",
+      "aliases": [
+        "Data Analytics"
+      ]
+    },
+    {
+      "name": "Data Visualization",
+      "category": "Data & Technology",
+      "aliases": [
+        "Data Visualisation"
+      ]
+    },
+    {
+      "name": "Statistics",
+      "category": "Data & Technology",
+      "aliases": [
+        "Statistical Analysis"
+      ]
+    },
+    {
+      "name": "Java",
+      "category": "Data & Technology",
+      "aliases": [
+        "Java SE"
+      ]
+    },
+    {
+      "name": "JavaScript",
+      "category": "Data & Technology",
+      "aliases": [
+        "JS"
+      ]
+    },
+    {
+      "name": "C++",
+      "category": "Data & Technology",
+      "aliases": [
+        "CPP"
+      ]
+    },
+    {
+      "name": "C#",
+      "category": "Data & Technology",
+      "aliases": [
+        "C Sharp",
+        "C-Sharp"
+      ]
+    },
+    {
+      "name": ".NET",
+      "category": "Data & Technology",
+      "aliases": [
+        "dotnet",
+        "dot net"
+      ]
+    },
+    {
+      "name": "AWS",
+      "category": "Data & Technology",
+      "aliases": [
+        "Amazon Web Services"
+      ]
+    },
+    {
+      "name": "Git",
+      "category": "Data & Technology",
+      "aliases": [
+        "Git version control"
+      ]
+    },
+    {
+      "name": "Spark",
+      "category": "Data & Technology",
+      "aliases": [
+        "Apache Spark",
+        "PySpark"
+      ]
+    },
+    {
+      "name": "TensorFlow",
+      "category": "Data & Technology",
+      "aliases": [
+        "Tensor Flow"
+      ]
+    },
+    {
+      "name": "Financial Modeling",
+      "category": "Finance & Accounting",
+      "aliases": [
+        "Financial Modelling"
+      ]
+    },
+    {
+      "name": "Financial Analysis",
+      "category": "Finance & Accounting",
+      "aliases": [
+        "Finance Analysis"
+      ]
+    },
+    {
+      "name": "Budgeting",
+      "category": "Finance & Accounting",
+      "aliases": [
+        "Budget Planning"
+      ]
+    },
+    {
+      "name": "Forecasting",
+      "category": "Finance & Accounting",
+      "aliases": [
+        "Financial Forecasting"
+      ]
+    },
+    {
+      "name": "Auditing",
+      "category": "Finance & Accounting",
+      "aliases": [
+        "Financial Auditing"
+      ]
+    },
+    {
+      "name": "Bookkeeping",
+      "category": "Finance & Accounting",
+      "aliases": [
+        "Book Keeping"
+      ]
+    },
+    {
+      "name": "Accounts Payable",
+      "category": "Finance & Accounting",
+      "aliases": [
+        "AP processing"
+      ]
+    },
+    {
+      "name": "Accounts Receivable",
+      "category": "Finance & Accounting",
+      "aliases": [
+        "AR processing"
+      ]
+    },
+    {
+      "name": "Financial Reporting",
+      "category": "Finance & Accounting",
+      "aliases": [
+        "Finance Reporting"
+      ]
+    },
+    {
+      "name": "Tax Preparation",
+      "category": "Finance & Accounting",
+      "aliases": [
+        "Tax Filing"
+      ]
+    },
+    {
+      "name": "General Ledger",
+      "category": "Finance & Accounting",
+      "aliases": [
+        "GL Accounting"
+      ]
+    },
+    {
+      "name": "Reconciliation",
+      "category": "Finance & Accounting",
+      "aliases": [
+        "Account Reconciliation"
+      ]
+    },
+    {
+      "name": "QuickBooks",
+      "category": "Finance & Accounting",
+      "aliases": [
+        "Intuit QuickBooks"
+      ]
+    },
+    {
+      "name": "SAP",
+      "category": "Finance & Accounting",
+      "aliases": [
+        "SAP ERP"
+      ]
+    },
+    {
+      "name": "GAAP",
+      "category": "Finance & Accounting",
+      "aliases": [
+        "Generally Accepted Accounting Principles"
+      ]
+    },
+    {
+      "name": "SEO",
+      "category": "Marketing & Sales",
+      "aliases": [
+        "Search Engine Optimization",
+        "Search Engine Optimisation"
+      ]
+    },
+    {
+      "name": "SEM",
+      "category": "Marketing & Sales",
+      "aliases": [
+        "Search Engine Marketing"
+      ]
+    },
+    {
+      "name": "CRM",
+      "category": "Marketing & Sales",
+      "aliases": [
+        "Customer Relationship Management"
+      ]
+    },
+    {
+      "name": "Salesforce",
+      "category": "Marketing & Sales",
+      "aliases": [
+        "Salesforce CRM"
+      ]
+    },
+    {
+      "name": "Google Analytics",
+      "category": "Marketing & Sales",
+      "aliases": [
+        "GA4",
+        "Google Analytics 4"
+      ]
+    },
+    {
+      "name": "Email Marketing",
+      "category": "Marketing & Sales",
+      "aliases": [
+        "E-mail Marketing"
+      ]
+    },
+    {
+      "name": "Content Marketing",
+      "category": "Marketing & Sales",
+      "aliases": [
+        "Content Strategy Marketing"
+      ]
+    },
+    {
+      "name": "Social Media Marketing",
+      "category": "Marketing & Sales",
+      "aliases": [
+        "Social Media Campaigns"
+      ]
+    },
+    {
+      "name": "Lead Generation",
+      "category": "Marketing & Sales",
+      "aliases": [
+        "Lead Gen"
+      ]
+    },
+    {
+      "name": "Market Research",
+      "category": "Marketing & Sales",
+      "aliases": [
+        "Marketing Research"
+      ]
+    },
+    {
+      "name": "Copywriting",
+      "category": "Marketing & Sales",
+      "aliases": [
+        "Ad Copywriting"
+      ]
+    },
+    {
+      "name": "Adobe Photoshop",
+      "category": "Marketing & Sales",
+      "aliases": [
+        "Photoshop"
+      ]
+    },
+    {
+      "name": "Adobe Illustrator",
+      "category": "Marketing & Sales",
+      "aliases": [
+        "Illustrator"
+      ]
+    },
+    {
+      "name": "Adobe InDesign",
+      "category": "Marketing & Sales",
+      "aliases": [
+        "InDesign"
+      ]
+    },
+    {
+      "name": "HubSpot",
+      "category": "Marketing & Sales",
+      "aliases": [
+        "HubSpot CRM"
+      ]
+    },
+    {
+      "name": "Project Management",
+      "category": "Business & Management",
+      "aliases": [
+        "Project Planning and Management"
+      ]
+    },
+    {
+      "name": "Strategic Planning",
+      "category": "Business & Management",
+      "aliases": [
+        "Strategy Planning"
+      ]
+    },
+    {
+      "name": "Stakeholder Management",
+      "category": "Business & Management",
+      "aliases": [
+        "Stakeholder Engagement"
+      ]
+    },
+    {
+      "name": "Business Analysis",
+      "category": "Business & Management",
+      "aliases": [
+        "Business Requirements Analysis"
+      ]
+    },
+    {
+      "name": "Process Improvement",
+      "category": "Business & Management",
+      "aliases": [
+        "Business Process Improvement"
+      ]
+    },
+    {
+      "name": "Agile",
+      "category": "Business & Management",
+      "aliases": [
+        "Agile Methodology"
+      ]
+    },
+    {
+      "name": "Scrum",
+      "category": "Business & Management",
+      "aliases": [
+        "Scrum Framework"
+      ]
+    },
+    {
+      "name": "Risk Management",
+      "category": "Business & Management",
+      "aliases": [
+        "Enterprise Risk Management"
+      ]
+    },
+    {
+      "name": "Operations Management",
+      "category": "Business & Management",
+      "aliases": [
+        "Operational Management"
+      ]
+    },
+    {
+      "name": "Change Management",
+      "category": "Business & Management",
+      "aliases": [
+        "Organizational Change Management"
+      ]
+    },
+    {
+      "name": "Supply Chain Management",
+      "category": "Business & Management",
+      "aliases": [
+        "SCM"
+      ]
+    },
+    {
+      "name": "Inventory Management",
+      "category": "Business & Management",
+      "aliases": [
+        "Inventory Control"
+      ]
+    },
+    {
+      "name": "Vendor Management",
+      "category": "Business & Management",
+      "aliases": [
+        "Supplier Management"
+      ]
+    },
+    {
+      "name": "Contract Management",
+      "category": "Business & Management",
+      "aliases": [
+        "Contract Administration"
+      ]
+    },
+    {
+      "name": "Quality Assurance",
+      "category": "Business & Management",
+      "aliases": [
+        "QA Processes"
+      ]
+    },
+    {
+      "name": "CAD",
+      "category": "Engineering",
+      "aliases": [
+        "Computer-Aided Design",
+        "Computer Aided Design"
+      ]
+    },
+    {
+      "name": "AutoCAD",
+      "category": "Engineering",
+      "aliases": [
+        "Auto CAD"
+      ]
+    },
+    {
+      "name": "MATLAB",
+      "category": "Engineering",
+      "aliases": [
+        "Matrix Laboratory"
+      ]
+    },
+    {
+      "name": "SolidWorks",
+      "category": "Engineering",
+      "aliases": [
+        "Solid Works"
+      ]
+    },
+    {
+      "name": "Finite Element Analysis",
+      "category": "Engineering",
+      "aliases": [
+        "FEA"
+      ]
+    },
+    {
+      "name": "3D Modeling",
+      "category": "Engineering",
+      "aliases": [
+        "3D Modelling"
+      ]
+    },
+    {
+      "name": "Mechanical Design",
+      "category": "Engineering",
+      "aliases": [
+        "Mechanical Engineering Design"
+      ]
+    },
+    {
+      "name": "Electrical Engineering",
+      "category": "Engineering",
+      "aliases": [
+        "Electrical Systems Engineering"
+      ]
+    },
+    {
+      "name": "Circuit Design",
+      "category": "Engineering",
+      "aliases": [
+        "Electronic Circuit Design"
+      ]
+    },
+    {
+      "name": "PLC Programming",
+      "category": "Engineering",
+      "aliases": [
+        "Programmable Logic Controller Programming"
+      ]
+    },
+    {
+      "name": "HVAC",
+      "category": "Engineering",
+      "aliases": [
+        "Heating Ventilation and Air Conditioning"
+      ]
+    },
+    {
+      "name": "Blueprint Reading",
+      "category": "Engineering",
+      "aliases": [
+        "Reading Blueprints"
+      ]
+    },
+    {
+      "name": "Manufacturing",
+      "category": "Engineering",
+      "aliases": [
+        "Manufacturing Processes"
+      ]
+    },
+    {
+      "name": "Lean Manufacturing",
+      "category": "Engineering",
+      "aliases": [
+        "Lean Production"
+      ]
+    },
+    {
+      "name": "Six Sigma",
+      "category": "Engineering",
+      "aliases": [
+        "6 Sigma"
+      ]
+    },
+    {
+      "name": "Patient Care",
+      "category": "Healthcare & Administration",
+      "aliases": [
+        "Direct Patient Care"
+      ]
+    },
+    {
+      "name": "Electronic Medical Records",
+      "category": "Healthcare & Administration",
+      "aliases": [
+        "EMR",
+        "Electronic Health Records",
+        "EHR"
+      ]
+    },
+    {
+      "name": "Patient Scheduling",
+      "category": "Healthcare & Administration",
+      "aliases": [
+        "Appointment Scheduling"
+      ]
+    },
+    {
+      "name": "Medical Coding",
+      "category": "Healthcare & Administration",
+      "aliases": [
+        "Clinical Coding"
+      ]
+    },
+    {
+      "name": "Medical Billing",
+      "category": "Healthcare & Administration",
+      "aliases": [
+        "Healthcare Billing"
+      ]
+    },
+    {
+      "name": "HIPAA Compliance",
+      "category": "Healthcare & Administration",
+      "aliases": [
+        "HIPAA"
+      ]
+    },
+    {
+      "name": "Vital Signs Monitoring",
+      "category": "Healthcare & Administration",
+      "aliases": [
+        "Vital Signs Assessment"
+      ]
+    },
+    {
+      "name": "Medication Administration",
+      "category": "Healthcare & Administration",
+      "aliases": [
+        "Administering Medications"
+      ]
+    },
+    {
+      "name": "Clinical Documentation",
+      "category": "Healthcare & Administration",
+      "aliases": [
+        "Medical Documentation"
+      ]
+    },
+    {
+      "name": "CPR",
+      "category": "Healthcare & Administration",
+      "aliases": [
+        "Cardiopulmonary Resuscitation"
+      ]
+    },
+    {
+      "name": "First Aid",
+      "category": "Healthcare & Administration",
+      "aliases": [
+        "Basic First Aid"
+      ]
+    },
+    {
+      "name": "Phlebotomy",
+      "category": "Healthcare & Administration",
+      "aliases": [
+        "Blood Drawing"
+      ]
+    },
+    {
+      "name": "Triage",
+      "category": "Healthcare & Administration",
+      "aliases": [
+        "Patient Triage"
+      ]
+    },
+    {
+      "name": "Medical Terminology",
+      "category": "Healthcare & Administration",
+      "aliases": [
+        "Clinical Terminology"
+      ]
+    },
+    {
+      "name": "Infection Control",
+      "category": "Healthcare & Administration",
+      "aliases": [
+        "Infection Prevention"
+      ]
+    }
+  ]
+}
