@@ -87,3 +87,58 @@ def test_invalid_hybrid_weight(example_jobs, weight):
     matcher = TextMatcher().fit(example_jobs)
     with pytest.raises(ValueError, match="text_weight"):
         score_jobs({}, example_jobs, matcher=matcher, text_weight=weight)
+
+
+def test_category_top_m_aggregation():
+    """Check top-m means, multi-label jobs, and duplicate link removal."""
+    from src.recommendation import rank_job_categories
+
+    scored = pd.DataFrame({
+        "job_id": ["1", "2", "3", "4"],
+        "text_score": [0.9, 0.7, 0.1, 0.6],
+    })
+    links = pd.DataFrame({
+        "job_id": ["1", "1", "2", "3", "4", "1"],
+        "category": ["A", "B", "A", "A", "B", "A"],
+    })
+
+    ranking = rank_job_categories(scored, links, m=2)
+    by_category = ranking.set_index("category")
+
+    assert ranking["category"].tolist() == ["A", "B"]
+    assert by_category.loc["A", "category_score"] == pytest.approx(0.8)
+    assert by_category.loc["B", "category_score"] == pytest.approx(0.75)
+    assert by_category.loc["A", "jobs_available"] == 3
+    assert by_category.loc["A", "jobs_used"] == 2
+
+
+def test_category_missing_scores_and_small_groups():
+    """Exclude unknown scores while reporting available category jobs."""
+    from src.recommendation import rank_job_categories
+
+    scored = pd.DataFrame({
+        "job_id": ["1", "2", "3"],
+        "skill_score": [0.8, float("nan"), float("nan")],
+    })
+    links = pd.DataFrame({
+        "job_id": ["1", "2", "3", "99"],
+        "category": ["A", "A", "B", "C"],
+    })
+
+    ranking = rank_job_categories(
+        scored, links, score_column="skill_score", m=5
+    )
+
+    assert ranking["category"].tolist() == ["A"]
+    assert ranking.iloc[0]["category_score"] == pytest.approx(0.8)
+    assert ranking.iloc[0]["jobs_used"] == 1
+    assert ranking.iloc[0]["jobs_available"] == 2
+
+
+@pytest.mark.parametrize("m", [0, -1, True, 1.5])
+def test_category_invalid_m(m):
+    """Reject invalid top-m aggregation settings."""
+    from src.recommendation import rank_job_categories
+
+    with pytest.raises(ValueError, match="positive integer"):
+        rank_job_categories(pd.DataFrame(), pd.DataFrame(), m=m)
