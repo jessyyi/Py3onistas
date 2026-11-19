@@ -6,7 +6,7 @@ Owner: Damir. This is an initial demonstration, not a validated recommender.
 
 Install `requirements.txt` in the project environment. Prepare the source
 dataset using `scripts/prepare_data.py` as described in `data_audit.md`.
-The notebook reads the generated `data/processed/sample_jobs.csv`.
+The notebook reads the generated `data/sample/sample_jobs.csv`.
 Raw and processed datasets are local, ignored files.
 
 Open `notebooks/03_recommendation.ipynb`, select the project environment,
@@ -61,10 +61,11 @@ these are not calibrated or optimized. All methods break ties by job ID.
 
 ## Limits and next integration steps
 
-The notebook's `extract_demo_skills` is a temporary vocabulary-based mention
-detector for three demonstration domains. It is not Jessy's completed
-extractor and does not interpret mandatory versus optional requirements.
-Replace its output with normalized extraction results when available.
+Job skill labels are produced by the shared dictionary-based
+`src.feature_extraction.extract_skills` function. The notebook no longer
+uses the temporary demo vocabulary. Candidate skill aliases must follow
+the same canonical naming conventions; coverage comparison itself only
+strips whitespace and ignores case.
 
 A score of 1 for skill coverage means all detected vocabulary labels match,
 even if only one label was detected. Different score distributions and the
@@ -73,5 +74,23 @@ that hybrid improves quality is supported by this demo.
 
 Historical 2023–2024 postings are not current openings. The sample is not a
 market-representative analysis. Experience, mandatory eligibility, user
-preferences, independent category rankings, and human relevance metrics
+preferences, and human relevance metrics
 remain future work. Scores are not interview or offer probabilities.
+
+## Independent job-category ranking
+
+`rank_job_categories(scored_jobs, job_categories, score_column="text_score",
+m=5)` ranks job-function categories by the mean score of their top-m jobs.
+
+Category links contain one job_id/category pair per row. A job may belong
+to multiple categories. Duplicate links are removed; unknown scores are
+excluded. Outputs report both jobs used and jobs available.
+
+The user's selected category is compared with the completed ranking and
+does not influence its calculation. Top-10 job recommendations remain
+available separately.
+
+The notebook demonstrates three synthetic profiles, alternative categories,
+and sensitivity to text weights of 0.5, 0.75, and 1.0 and m values of 3, 5,
+and 10. No configuration has been established as optimal. Top-m averaging
+does not eliminate category-size effects.
