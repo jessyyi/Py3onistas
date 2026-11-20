@@ -114,8 +114,9 @@ def main():
 
     base = pd.DataFrame(annotations)
 
-    # Save independent copies for blinded annotation.
-    for annotator in ["jessy", "aileen"]:
+    
+    # Save independent annotation files for all three team members.
+    for annotator in ["jessy", "aileen", "damir"]:
         output = base.copy()
         output.insert(0, "annotator", annotator)
 
