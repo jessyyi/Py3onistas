@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import ast
 import os
+import hashlib
 from collections import Counter
 from io import BytesIO
 from pathlib import Path
@@ -15,6 +16,8 @@ from docx import Document
 from pypdf import PdfReader
 
 from src.feature_extraction import extract_skills
+from src.resume_profile import extract_profile_evidence
+from src.resume_studio import build_resume_docx, TEMPLATES
 from src.market_filters import (REGION_SUBREGIONS, filter_labels, filter_location, group_counts, group_name, label_counts, labels, sorted_states, state_region, state_subregion)
 from src.dashboard_charts import DEFAULT_CHARTS, available_charts, chart_data, draw_chart, valid_salary
 from src.matching import TextMatcher
@@ -22,10 +25,10 @@ from src.recommendation import rank_job_categories, score_jobs
 
 ROOT = Path(__file__).resolve().parent
 THEMES = {
-    "Sage": ("#74866c", "#f4f6f1", "#283b2b"),
-    "Violet": ("#7962aa", "#f6f2fb", "#362c53"),
-    "Ocean": ("#397f9e", "#eff7fa", "#243e50"),
-    "Sand": ("#a47b60", "#faf5ef", "#513e34"),
+    "Forest Atelier": ("#32645b", "#f4f6f2", "#203e39"),
+    "Midnight Ink": ("#334d70", "#f2f5f9", "#26364b"),
+    "Bordeaux & Linen": ("#875365", "#faf5f3", "#563944"),
+    "Graphite & Gold": ("#87683c", "#f7f6f1", "#383a3c"),
 }
 
 
@@ -97,6 +100,11 @@ def theme_style(name: str) -> tuple[str, str]:
         .stButton button[kind="primary"] {{background-color: {accent}; border-color: {accent};}}
         .hero {{padding: 15px 0 7px 0;}}
         .muted-note {{font-size: 0.85rem; opacity: 0.8;}}
+        [data-testid="stHeader"] {{border-bottom: 1px solid rgba(110,110,110,.10);}}
+        [data-testid="stAppViewContainer"] {{background: {pale};}}
+        .stApp h1, .stApp h2, .stApp h3 {{letter-spacing: -0.025em;}}
+        div[data-testid="stMetric"] {{box-shadow: 0 3px 16px rgba(0,0,0,.025);}}
+        [data-testid="stTopNav"] {{font-weight: 550;}}
         </style>""",
         unsafe_allow_html=True,
     )
@@ -341,12 +349,32 @@ def matching_page(jobs: pd.DataFrame, source: str, accent: str) -> None:
     with col_profile:
         with st.container(border=True):
             st.subheader("Candidate Profile")
-            detected = extract_skills(resume) if resume else []
-            skills_input = st.text_area("Confirmed skills (comma-separated; editable)",
-                value=", ".join(detected), height=85,
+            if not resume and st.session_state.get("studio_matching_text"):
+                resume = st.session_state["studio_matching_text"]
+            if resume:
+                fingerprint = hashlib.sha256(resume.encode("utf-8")).hexdigest()
+                if st.session_state.get("resume_matching_fingerprint") != fingerprint:
+                    evidence = extract_profile_evidence(resume)
+                    st.session_state["resume_matching_fingerprint"] = fingerprint
+                    st.session_state["resume_matching_skills"] = ", ".join(extract_skills(resume))
+                    st.session_state["resume_matching_education"] = (
+                        "\n".join(evidence["education_lines"]))
+                    st.session_state["resume_matching_experience"] = (
+                        "\n".join(evidence["experience_lines"]))
+                evidence_preview = extract_profile_evidence(resume)
+                st.caption("Parsed profile overview (unverified; editable below)")
+                st.markdown("**Education:** " + str(evidence_preview["education_summary"]))
+                st.markdown("**Experience:** " + str(evidence_preview["experience_summary"]))
+                st.caption("Dates, school names, roles and eligibility are not independently validated.")
+            skills_input = st.text_area(
+                "Confirmed Skills (editable)", key="resume_matching_skills", height=82,
                 help="Review detected skills and correct them before matching.")
-            education = st.text_input("Education", placeholder="Master's in Data Science")
-            experience = st.text_input("Experience", placeholder="Data analysis and Python projects")
+            education = st.text_area(
+                "Education — extracted / editable", key="resume_matching_education", height=85,
+                help="Verify degree, institution and dates yourself; this is a conservative text extraction.")
+            experience = st.text_area(
+                "Experience — extracted / editable", key="resume_matching_experience", height=105,
+                help="Confirm roles and dates yourself; no employer or seniority verification is performed.")
     settings_a, settings_b, settings_c = st.columns(3)
     method = settings_a.selectbox("Ranking Method", ["Hybrid", "TF-IDF", "Skill-only"])
     top_k = settings_b.selectbox("Top Jobs", [5, 10, 20])
@@ -417,23 +445,109 @@ def matching_page(jobs: pd.DataFrame, source: str, accent: str) -> None:
         st.info("Category labels are not available in this dataset.")
 
 
+def resume_studio_page() -> None:
+    """Private in-session resume editor and editable DOCX generator."""
+    st.title("Resume Studio")
+    st.caption("Build a clean, single-column resume from confirmed information. No account or server-side resume storage is configured.")
+    left, right = st.columns([1.1, 1.3])
+    with left:
+        st.subheader("Import & Organize")
+        source = st.file_uploader("Import PDF / DOCX", type=["pdf", "docx"], key="studio_upload")
+        pasted = st.text_area("Or paste existing resume text", height=100, key="studio_paste")
+        if st.button("Extract from Resume", use_container_width=True):
+            raw = pasted.strip()
+            if not raw and source:
+                if source.size > 10 * 1024 * 1024:
+                    st.error("File is larger than 10 MB.")
+                    return
+                try:
+                    raw = parse_resume(source.name, source.getvalue()).strip()
+                except Exception as exc:
+                    st.error("Could not extract text. Try a text-based PDF/DOCX or paste text.")
+                    return
+            if not raw:
+                st.warning("Please upload a text-based resume or paste text.")
+            else:
+                evidence = extract_profile_evidence(raw)
+                st.session_state["studio_education"] = "\n".join(evidence["education_lines"])
+                st.session_state["studio_experience"] = "\n".join(evidence["experience_lines"])
+                st.session_state["studio_projects"] = "\n".join(evidence["project_lines"])
+                st.session_state["studio_skills"] = ", ".join(extract_skills(raw))
+                st.session_state["studio_email"] = evidence["email"]
+                st.session_state["studio_matching_text"] = raw
+                st.success("Draft extracted. Review every field before exporting.")
+        template = st.selectbox("Resume Layout", list(TEMPLATES), key="studio_template")
+        st.caption("Technical Classic: compact tech resume · Editorial Modern: refined hierarchy · Research Minimal: academic-friendly layout")
+        st.info("Imported formatting, dates and roles may be incomplete. The editor never invents experience or achievements.")
+    with right:
+        st.subheader("Edit Your Resume")
+        c1,c2 = st.columns(2)
+        name = c1.text_input("Full Name", key="studio_name")
+        email = c2.text_input("Email", key="studio_email")
+        location = c1.text_input("Location", key="studio_location")
+        links = c2.text_input("LinkedIn / Portfolio", key="studio_links")
+        summary = st.text_area("Professional Summary", height=75, key="studio_summary")
+        education = st.text_area("Education", height=100, key="studio_education")
+        experience = st.text_area("Experience (one entry per line, bullets with '- ')", height=155, key="studio_experience")
+        projects = st.text_area("Projects", height=110, key="studio_projects")
+        skills = st.text_area("Skills", height=75, key="studio_skills")
+        fields = {"name":name, "email":email, "location":location, "links":links,
+                  "summary":summary, "education":education, "experience":experience,
+                  "projects":projects, "skills":skills}
+        export = build_resume_docx(fields, template)
+        if st.button("Use Edited Profile for Job Matching", use_container_width=True):
+            composed = "\n".join(
+                f"{label}\n{value.strip()}" for label, value in [
+                    ("Education", education), ("Experience", experience),
+                    ("Projects", projects), ("Skills", skills)] if value.strip()
+            )
+            if not composed.strip():
+                st.warning("Add some education, experience, project or skill details first.")
+            else:
+                st.session_state["studio_matching_text"] = composed
+                st.success("Saved for this session. Open Job Matching in the top navigation.")
+        st.download_button("Download Editable DOCX", data=export,
+                           file_name="jobscope_resume.docx",
+                           mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                           type="primary", use_container_width=True)
+        with st.expander("Preview Resume Text", expanded=False):
+            st.markdown(f"**{name or 'Your Name'}**")
+            st.caption(" · ".join(v for v in (email, location, links) if v))
+            for title, value in [("Summary", summary), ("Education", education),
+                                 ("Experience", experience), ("Projects", projects), ("Skills", skills)]:
+                if value.strip():
+                    st.markdown(f"**{title}**")
+                    st.text(value)
+    st.caption("Resume Studio creates editable documents; it does not verify claims or guarantee automated screening results.")
+
+
 def main() -> None:
-    st.set_page_config(page_title="JobScope", page_icon="📊", layout="wide")
+    st.set_page_config(page_title="JobScope · Career Intelligence", page_icon="📊", layout="wide")
     heading, theme = st.columns([5, 1])
-    heading.markdown("### JobScope · Career Intelligence")
-    selected_theme = theme.selectbox("Theme", list(THEMES), label_visibility="collapsed")
+    heading.markdown("### ◈ JobScope  <span style='font-size:0.82rem;opacity:.6;font-weight:400'>CAREER INTELLIGENCE</span>", unsafe_allow_html=True)
+    selected_theme = theme.selectbox("Design Palette", list(THEMES), label_visibility="collapsed")
     accent, _ = theme_style(selected_theme)
-    page = st.radio("Navigation", ["Market Explorer", "Resume Matching"], horizontal=True,
-                    label_visibility="collapsed")
-    try:
-        jobs, source = load_jobs()
-    except Exception as exc:
-        st.error(f"Could not load historical job data: {exc}")
-        st.stop()
-    if page == "Market Explorer":
-        market_page(jobs, source, accent)
-    else:
-        matching_page(jobs, source, accent)
+
+    def market_view():
+        try:
+            jobs, source = load_jobs()
+            market_page(jobs, source, accent)
+        except Exception as exc:
+            st.error(f"Market data could not be loaded: {exc}")
+
+    def matching_view():
+        try:
+            jobs, source = load_jobs()
+            matching_page(jobs, source, accent)
+        except Exception as exc:
+            st.error(f"Matching data could not be loaded: {exc}")
+
+    nav = st.navigation([
+        st.Page(market_view, title="Market Explorer", icon=":material/monitoring:", url_path="market" , default=True),
+        st.Page(matching_view, title="Job Matching", icon=":material/work:", url_path="matching"),
+        st.Page(resume_studio_page, title="Resume Studio", icon=":material/description:", url_path="studio"),
+    ], position="top")
+    nav.run()
 
 
 if __name__ == "__main__":
