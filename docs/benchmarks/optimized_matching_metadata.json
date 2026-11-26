@@ -1,0 +1,78 @@
+{
+  "row_count": 119055,
+  "matrix_shape": [
+    119055,
+    383799
+  ],
+  "matrix_nnz": 28355663,
+  "dtype": "float32",
+  "original_memory_mb": 324.96,
+  "optimized_memory_mb": 216.79,
+  "original_file_mb": 242.32,
+  "optimized_file_mb": 136.7,
+  "mean_baseline_seconds": 0.2585714285714286,
+  "mean_optimized_seconds": 0.04504285714285715,
+  "max_absolute_error": 6.166188809553219e-08,
+  "min_top10_overlap": 1.0,
+  "matrix_sha256": "c0467183ae29d1c77a83b17e88e6bd300b96d183699654f631178cfd46685292",
+  "original_matrix_sha256": "08c77858a0cd344117c06702b8472acbd7e0f3eff165d01267a56772500a612e",
+  "market_sha256": "78c1f7900009d8daa5d13c93ec6a5c45f9d819f613bb808eeb26c8ada435abf0",
+  "tests": [
+    {
+      "candidate": 1,
+      "max_absolute_error": 3.537246046070308e-08,
+      "top10_overlap": 1.0,
+      "top10_exact_order": true,
+      "baseline_seconds": 0.3279,
+      "optimized_seconds": 0.0492
+    },
+    {
+      "candidate": 2,
+      "max_absolute_error": 6.166188809553219e-08,
+      "top10_overlap": 1.0,
+      "top10_exact_order": true,
+      "baseline_seconds": 0.2905,
+      "optimized_seconds": 0.053
+    },
+    {
+      "candidate": 3,
+      "max_absolute_error": 4.100219225255941e-08,
+      "top10_overlap": 1.0,
+      "top10_exact_order": true,
+      "baseline_seconds": 0.2987,
+      "optimized_seconds": 0.055
+    },
+    {
+      "candidate": 4,
+      "max_absolute_error": 5.228495258968735e-08,
+      "top10_overlap": 1.0,
+      "top10_exact_order": true,
+      "baseline_seconds": 0.2189,
+      "optimized_seconds": 0.0464
+    },
+    {
+      "candidate": 5,
+      "max_absolute_error": 4.3760723156260894e-08,
+      "top10_overlap": 1.0,
+      "top10_exact_order": true,
+      "baseline_seconds": 0.2269,
+      "optimized_seconds": 0.0456
+    },
+    {
+      "candidate": 6,
+      "max_absolute_error": 0.0,
+      "top10_overlap": 1.0,
+      "top10_exact_order": true,
+      "baseline_seconds": 0.2174,
+      "optimized_seconds": 0.0334
+    },
+    {
+      "candidate": 7,
+      "max_absolute_error": 0.0,
+      "top10_overlap": 1.0,
+      "top10_exact_order": true,
+      "baseline_seconds": 0.2297,
+      "optimized_seconds": 0.0327
+    }
+  ]
+}
