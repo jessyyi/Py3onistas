@@ -1,4 +1,5 @@
-"""Tests for the industry groups and the RQ1 chart tables, on small made-up tables."""
+"""Tests for industry_groups.py and rq1_charts.py. I use small made-up tables and check the numbers by hand
+(the comments next to the asserts show how I counted)."""
 
 from datetime import date
 

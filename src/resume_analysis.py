@@ -1,17 +1,16 @@
-"""Job market read in resume order: education, experience, skills (RQ1).
+"""Resume-order analysis for RQ1: education, experience, skills.
 
-A job seeker reads a posting the way they write a resume: what degree and
-major, how many years and what kind of experience, which skills. Each
-function here answers one of those questions for the whole market.
+When I read a job posting as a job seeker, I look at the same things I put on
+a resume: degree and major, how many years and what kind of experience, and
+skills. Each function here answers one of those questions for the whole market.
 
-Inputs are the clean table with the columns added by
-text_signals.add_text_signals (min_years, degree) and
-text_signals.add_resume_signals (majors, internship_ok,
+The input is the clean table after text_signals.add_text_signals (min_years,
+degree) and text_signals.add_resume_signals (majors, internship_ok,
 research_asked, years_group), plus the skills table from
 market_analysis.extract_skills_for_jobs.
 
-A requirement that is not written in the posting is "Not stated". It is
-never read as "not required".
+If a posting does not say something, I treat it as "Not stated". I never read
+it as "not required".
 """
 
 from __future__ import annotations
@@ -328,7 +327,7 @@ def transitions(profiles: pd.DataFrame, similarity: pd.DataFrame, closest: int =
             a, b = profiles.loc[source], profiles.loc[target]
             both = np.minimum(a, b)
             shared = both[both >= min_share].sort_values(ascending=False).head(skills).index
-            # a skill to add is common in the target but at most half as common in the source
+            # skill to add = common in the target field but at most half as common in the source field
             new = (b >= min_share) & (a < 0.5 * b)
             add = (b - a)[new].sort_values(ascending=False).head(skills).index
             rows.append({"from_field": source, "to_field": target,

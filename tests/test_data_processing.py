@@ -1,4 +1,4 @@
-"""Unit tests for src/data_processing.py, run on a tiny made-up dataset."""
+"""Tests for src/data_processing.py. I made up a tiny dataset so I know what the right answers are."""
 
 import math
 

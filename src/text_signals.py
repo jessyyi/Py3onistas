@@ -1,9 +1,9 @@
-"""Simple signals read from job description text: years of experience and degree.
+"""Signals I read from the job description text: years, degree, majors, internships.
 
-These are rough, rule-based reads for market-level statistics (share of
-postings asking for 3+ years, and so on). They are not meant to decide
-whether one candidate qualifies; that is the job of the eligibility flags in
-feature_extraction.py.
+These are simple rules (regular expressions), good enough for market level
+numbers like "share of postings asking for 3+ years". They are not meant to
+decide if one person qualifies for one job, that is what the eligibility flags
+in feature_extraction.py are for.
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ _NUM = r"(\d{1,2}|" + "|".join(WORD_NUMBERS) + r")"
 
 # "3+ years of experience", "3-5 years experience", "two years of relevant
 # work experience", "minimum of 5 yrs ... experience". The word "experience"
-# must follow within 40 characters, so "100 years in business" is not caught.
+# must come within 40 characters, so I don't catch things like "100 years in business".
 YEARS_PATTERN = re.compile(
     _NUM + r"\s*(?:\+|plus)?\s*(?:(?:-|to)\s*" + _NUM + r"\s*\+?\s*)?"
     r"(?:years?|yrs?)\b[^.;\n]{0,40}?experience",
@@ -31,8 +31,8 @@ YEARS_PATTERN = re.compile(
 
 MAX_YEARS = 20
 
-# Short forms (B.S., MS) are matched case-sensitively and only with dots or
-# with "degree"/"in" after them, so "MS Office" is not read as a master's.
+# Short forms (B.S., MS) only count with dots or with "degree"/"in" after them,
+# otherwise "MS Office" would be read as a master's degree.
 DEGREE_PATTERNS = [
     ("High school", re.compile(r"(?i:high school diploma|high school or equivalent)|\bGED\b")),
     ("Associate", re.compile(r"(?i:associate'?s? degree)")),
@@ -104,7 +104,7 @@ def add_text_signals(jobs: pd.DataFrame, cache_path: str | Path | None = None) -
 # Majors (field of study)
 # ---------------------------------------------------------------------------
 
-# A degree word starts a window. The window ends at the end of that sentence,
+# I start looking after a degree word and stop at the end of that sentence,
 # so "Bachelor's degree required. Strong business sense" does not count
 # Business as a major.
 DEGREE_ANCHOR = re.compile(

@@ -1,4 +1,4 @@
-"""Tests for the resume-order analysis on a tiny made-up table."""
+"""Tests for resume_analysis.py. The table is tiny and made up, so I can count the answers by hand."""
 
 import math
 from datetime import date

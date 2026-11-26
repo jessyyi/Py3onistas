@@ -1,13 +1,13 @@
-"""Charts for the market analysis.
+"""My charts for the market analysis (notebook 01).
 
-Every chart follows the same rules so the slides look like one set:
+I use the same rules for every chart so the slides look like one set:
 - the title says what the chart shows (not the conclusion)
 - the gray line under the title says how to read it
 - only the items that matter get color; everything else is light gray
 - few labels, large text, no heavy grid lines
 
 Each function takes a summary table from market_analysis.py, draws one
-figure, saves it as PNG when path is given, and returns the figure.
+figure, saves it as a PNG if I give it a path, and returns the figure.
 """
 
 from __future__ import annotations
@@ -20,7 +20,7 @@ import pandas as pd
 from matplotlib import font_manager
 from matplotlib.colors import LinearSegmentedColormap
 
-# Use the first of these fonts that is installed (Helvetica Neue on a Mac).
+# use the first font that is installed (on my Mac that is Helvetica Neue)
 _INSTALLED = {f.name for f in font_manager.fontManager.ttflist}
 plt.rcParams["font.family"] = next(
     (f for f in ["Helvetica Neue", "Inter", "Arial", "DejaVu Sans"] if f in _INSTALLED), "sans-serif"
@@ -38,7 +38,7 @@ BLUES = LinearSegmentedColormap.from_list("blues", ["#e8f0fb", "#9cc3ef", "#2a78
 
 WIDTH = 10  # inches, same for every chart
 
-# Tile map: (column, row) for each state, roughly matching U.S. geography.
+# tile map: (column, row) for each state, I placed them to roughly match the U.S. map
 STATE_TILES = {
     "AK": (0, 0), "ME": (10, 0),
     "VT": (9, 1), "NH": (10, 1),
@@ -155,7 +155,7 @@ def plot_lollipop(values: pd.Series, title: str, subtitle: str, note: str,
             text = value_format.format(v)
             if counts is not None:
                 text += f"  (n = {int(counts.iloc[i]):,})"
-            # fixed 9-point gap from the dot; white box keeps dashed lines from crossing the text
+            # 9 point gap from the dot, and a white box so the dashed lines don't cross the text
             ax.annotate(text, (v, i), xytext=(9, 0), textcoords="offset points", va="center",
                         fontsize=10, zorder=2, fontweight="bold" if color != LIGHT else "normal",
                         color=color if color != LIGHT else QUIET,
@@ -484,7 +484,7 @@ def plot_state_tiles(values: pd.Series, title: str, subtitle: str, note: str,
             ax.text(col + 0.45, -row + 0.28, value_format.format(value), ha="center",
                     va="center", fontsize=8.5, color="white" if dark else INK)
 
-    # Keys go in the empty band between Alaska (row 0) and Vermont (row 1, col 9).
+    # I put the legend in the empty space between Alaska (row 0) and Vermont (row 1, col 9)
     ax.text(1.3, -0.25, "lighter = lower, darker = higher", fontsize=9, color=QUIET, va="center")
     for x, (label, level) in enumerate([(value_format.format(low), 0.08), (value_format.format(high), 1.0)]):
         ax.add_patch(plt.Rectangle((1.3 + x * 1.4, -0.85), 0.32, 0.32, facecolor=BLUES(level), edgecolor="none"))

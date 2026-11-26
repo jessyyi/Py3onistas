@@ -1,13 +1,12 @@
-"""Market analysis on the clean job table (RQ1).
+"""My market analysis functions for RQ1.
 
-Every function here takes the clean table from
-data_processing.load_clean_jobs (plus, for a few, extra tables) and
-returns a small summary table. Charts live in market_plots.py and the
-notebook notebooks/01_data_eda.ipynb calls both in order.
+Each function takes the clean table from data_processing.load_clean_jobs
+(a few also need extra tables) and returns a small summary table. The charts
+are in market_plots.py, and notebooks/01_data_eda.ipynb calls both in order.
 
-Counting rule for list columns (job_function, industry, skills):
-a posting with several labels counts once under each label. Shares are
-computed within each label, so across labels they can add up to more than 100%.
+How I count list columns (job_function, industry, skills): a posting with
+several labels counts once under each label. Shares are within each label,
+so across labels they can add up to more than 100%.
 """
 
 from __future__ import annotations
@@ -25,9 +24,9 @@ FULL_TIME = "Full-time"
 SALARY_BOUNDS = (10_000, 1_000_000)
 STAFFING_INDUSTRY = "Staffing and Recruiting"
 
-# Dates from which a state required salary ranges in job postings.
+# start date of each state's law that makes job postings show a salary range
 # Source: https://www.clockspot.com/articles/pay-transparency-laws-by-state (checked Nov 17, 2026).
-# A law only counts for postings listed on or after its start date.
+# I only count the law for postings listed on or after that date
 PAY_TRANSPARENCY_START = {
     "CO": date(2021, 1, 1),
     "CA": date(2023, 1, 1),
@@ -49,10 +48,10 @@ def _is_list(value) -> bool:
 def _explode_if_list(df: pd.DataFrame, column: str) -> pd.DataFrame:
     """One row per label when column holds lists. Empty lists are dropped."""
     first = df[column].dropna().head(1)
-    # Parquet gives lists back as numpy arrays, so _is_list checks for both.
+    # parquet gives lists back as numpy arrays, so I check for both
     if len(first) and _is_list(first.iloc[0]):
         df = df.explode(column)
-    # New index, because explode repeats the old row labels.
+    # explode repeats the old index, so I reset it
     return df.dropna(subset=[column]).reset_index(drop=True)
 
 
