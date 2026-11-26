@@ -1,0 +1,11 @@
+industry,Entry level,Associate,Mid-Senior level,Director,n_Entry level,n_Associate,n_Mid-Senior level,n_Director
+Health care,1.0,2.0,2.0,5.0,2098,191,2070,224
+"Hospitality, food and leisure",1.0,2.0,2.0,5.0,399,84,610,97
+"Media, marketing and arts",2.0,2.0,3.0,7.0,269,178,634,126
+Pharma and biotech,2.0,3.0,3.0,7.0,326,186,781,187
+"Business, legal and HR services",2.0,3.0,4.0,7.0,337,295,755,94
+Finance,2.0,2.0,4.0,5.0,682,497,2519,218
+Manufacturing,2.0,3.0,4.0,7.0,1289,297,1433,137
+Construction,2.0,3.0,5.0,,447,86,619,37
+Energy and utilities,2.0,3.0,5.0,7.0,414,118,558,52
+CS/IT,3.0,3.0,5.0,7.0,1674,657,4870,400

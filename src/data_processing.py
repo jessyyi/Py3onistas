@@ -2,7 +2,7 @@
 
 Source: https://www.kaggle.com/datasets/arshkon/linkedin-job-postings
 
-The main entry point is ``build_clean_jobs``. It returns one row per U.S.
+The main entry point is build_clean_jobs. It returns one row per U.S.
 posting with the shared columns other modules use (see SHARED_INTERFACES.md):
 job_id, title, description, location, job_function, industry, plus salary,
 company and location detail columns.
@@ -15,9 +15,9 @@ Rules used here were checked against the full dataset on Nov 5-8, 2026:
 - Locations come in four U.S. formats ("City, ST", "United States",
   "State, United States", metro names). 76 rows match none of them and
   are dropped.
-- 4,718 postings repeat an earlier one exactly (same company, title,
+- 4,671 postings repeat an earlier one exactly (same company, title,
   description and location) and are dropped. Postings with the same text in
-  different cities are kept and counted in ``same_text_postings``.
+  different cities are kept and counted in same_text_postings.
 """
 
 from __future__ import annotations
@@ -156,7 +156,7 @@ def classify_location(location: pd.Series) -> pd.DataFrame:
       missing       empty or NaN
       other         anything else (foreign places, "NAMER", vague regions)
 
-    Returns a DataFrame with columns ``location_type`` and ``state``
+    Returns a DataFrame with columns location_type and state
     (two-letter code, or NaN when the place has no single state).
     """
     loc = location.fillna("").astype(str).str.strip()
@@ -255,9 +255,9 @@ def _text_key(postings: pd.DataFrame) -> pd.DataFrame:
 def find_content_duplicates(postings: pd.DataFrame, include_location: bool = True) -> pd.Series:
     """Flag repeat postings: same company, title and description as an earlier row.
 
-    With ``include_location=True`` (the default) the location must match too.
+    With include_location=True (the default) the location must match too.
     On the full data, 12,746 postings share text with an earlier one, but only
-    4,718 of them are in the same place. The rest are the same job posted in
+    4,671 of them are in the same place. The rest are the same job posted in
     several cities, which count as separate openings.
 
     The first copy is not flagged. Postings with an empty description are
@@ -292,7 +292,7 @@ def build_clean_jobs(
 ) -> tuple[pd.DataFrame, dict]:
     """Build the cleaned, U.S.-only postings table.
 
-    Returns ``(clean_jobs, log)``. ``log`` records row counts at each step
+    Returns (clean_jobs, log). log records row counts at each step
     so the audit can report what was removed and why.
     """
     log = {}
@@ -438,7 +438,7 @@ def save_clean_jobs(clean: pd.DataFrame, out_dir: str | Path, sample_size: int =
 
 
 def load_clean_jobs(path: str | Path = "data/processed/clean_jobs.parquet") -> pd.DataFrame:
-    """Load the cleaned table. Other modules call this to get ``clean_jobs``."""
+    """Load the cleaned table. Other modules call this to get clean_jobs."""
     return pd.read_parquet(path)
 
 

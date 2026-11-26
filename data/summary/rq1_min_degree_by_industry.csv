@@ -1,0 +1,20 @@
+industry,Below bachelor,Bachelor,Master,PhD,master_or_higher,postings_naming_degree
+Government and public safety,0.36,0.5191,0.0773,0.0436,0.1209,1100
+Education,0.2136,0.6713,0.0599,0.0552,0.1151,2154
+Pharma and biotech,0.2263,0.6703,0.0335,0.0699,0.1034,2417
+"Business, legal and HR services",0.1668,0.7585,0.0302,0.0444,0.0747,2116
+Non-profit and social services,0.344,0.5814,0.0537,0.021,0.0747,1192
+Health care,0.581,0.3452,0.0483,0.0255,0.0738,8455
+CS/IT,0.1577,0.7975,0.0287,0.0161,0.0448,9803
+"Media, marketing and arts",0.1777,0.7872,0.0207,0.0144,0.035,1598
+Aerospace and defense,0.2901,0.6767,0.0166,0.0166,0.0332,1265
+Finance,0.2864,0.6859,0.0201,0.0077,0.0278,5472
+Construction,0.292,0.6807,0.0268,0.0006,0.0274,1716
+Energy and utilities,0.3843,0.593,0.017,0.0057,0.0227,1936
+Manufacturing,0.4417,0.5411,0.0111,0.006,0.0172,5295
+Retail,0.7771,0.2058,0.014,0.0032,0.0171,4082
+Facilities and other services,0.7522,0.2345,0.0133,0.0,0.0133,678
+"Hospitality, food and leisure",0.6321,0.355,0.01,0.0029,0.0129,2093
+Transportation and logistics,0.5607,0.4326,0.0052,0.0015,0.0067,1350
+Real estate,0.5119,0.4828,0.0054,0.0,0.0054,928
+Wholesale,0.5219,0.4781,0.0,0.0,0.0,912

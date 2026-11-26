@@ -1,0 +1,366 @@
+function_a,function_b,shared_postings,overlap
+Business Development,Sales,11520,0.9171
+Management,Manufacturing,15234,0.8963
+Marketing,Public Relations,1106,0.8919
+Art/Creative,Design,1407,0.8777
+Art/Creative,Information Technology,1315,0.8203
+Public Relations,Writing/Editing,1007,0.8121
+Education,Training,1593,0.7989
+Analyst,Research,2132,0.7486
+Marketing,Writing/Editing,1051,0.747
+Engineering,Information Technology,8387,0.6923
+Accounting/Auditing,Finance,3249,0.6767
+Information Technology,Research,1856,0.6517
+Design,Information Technology,1387,0.6398
+Analyst,Information Technology,2083,0.5691
+Information Technology,Project Management,1965,0.5267
+Marketing,Product Management,615,0.4831
+Marketing,Sales,2225,0.4328
+Finance,Sales,3293,0.4257
+Consulting,Information Technology,764,0.3471
+Customer Service,Sales,1213,0.3072
+Consulting,Sales,625,0.284
+Management,Strategy/Planning,211,0.1859
+Design,Engineering,383,0.1767
+Consulting,Engineering,372,0.169
+Customer Service,Management,644,0.1631
+Manufacturing,Supply Chain,178,0.1579
+Project Management,Strategy/Planning,150,0.1322
+Information Technology,Strategy/Planning,144,0.1269
+Administrative,Customer Service,491,0.1244
+Engineering,Research,348,0.1222
+Product Management,Project Management,149,0.117
+Business Development,Consulting,256,0.1163
+Finance,Strategy/Planning,126,0.111
+Engineering,Project Management,413,0.1107
+Customer Service,Training,216,0.1083
+Consulting,Strategy/Planning,122,0.1075
+Engineering,Quality Assurance,166,0.098
+Analyst,Finance,355,0.097
+Customer Service,Marketing,377,0.0955
+Manufacturing,Quality Assurance,160,0.0945
+Business Development,Strategy/Planning,107,0.0943
+Management,Training,176,0.0883
+Analyst,Strategy/Planning,99,0.0872
+Analyst,Engineering,302,0.0825
+Information Technology,Product Management,105,0.0825
+Management,Supply Chain,88,0.0781
+Management,Project Management,289,0.0775
+Manufacturing,Product Management,98,0.077
+Administrative,Human Resources,187,0.0742
+Sales,Strategy/Planning,82,0.0722
+Business Development,Product Management,89,0.0699
+Marketing,Strategy/Planning,79,0.0696
+Management,Product Management,88,0.0691
+Accounting/Auditing,Strategy/Planning,76,0.067
+Research,Writing/Editing,94,0.0668
+Product Management,Sales,85,0.0668
+Engineering,Product Management,83,0.0652
+Administrative,Strategy/Planning,73,0.0643
+Business Development,Customer Service,247,0.0626
+Consulting,Finance,131,0.0595
+Administrative,Legal,127,0.0593
+Consulting,Management,130,0.0591
+Consulting,Project Management,130,0.0591
+Management,Marketing,303,0.0589
+Accounting/Auditing,Analyst,210,0.0574
+Consulting,Health Care Provider,124,0.0563
+Consulting,Customer Service,118,0.0536
+Analyst,Writing/Editing,75,0.0533
+Strategy/Planning,Supply Chain,55,0.0488
+Accounting/Auditing,Administrative,223,0.0484
+Engineering,Manufacturing,555,0.0458
+Information Technology,Management,860,0.0442
+Analyst,Consulting,97,0.0441
+Design,Project Management,95,0.0438
+Management,Sales,842,0.0433
+Management,Quality Assurance,68,0.0401
+Business Development,Marketing,205,0.0399
+Information Technology,Quality Assurance,66,0.039
+Accounting/Auditing,Consulting,84,0.0382
+Art/Creative,Marketing,58,0.0362
+Manufacturing,Strategy/Planning,41,0.0361
+Administrative,Education,73,0.0357
+Engineering,Supply Chain,40,0.0355
+Customer Service,Education,72,0.0352
+Art/Creative,Writing/Editing,49,0.0348
+Engineering,Strategy/Planning,39,0.0344
+Project Management,Quality Assurance,58,0.0342
+Customer Service,Finance,135,0.0342
+Administrative,Management,155,0.0337
+Analyst,Supply Chain,37,0.0328
+Customer Service,Supply Chain,36,0.0319
+Administrative,Project Management,119,0.0319
+Consulting,Design,65,0.03
+Sales,Training,59,0.0296
+Administrative,Finance,135,0.0293
+Business Development,Project Management,103,0.0276
+Product Management,Strategy/Planning,31,0.0273
+Information Technology,Supply Chain,30,0.0266
+Customer Service,Information Technology,101,0.0256
+Customer Service,Strategy/Planning,29,0.0256
+Business Development,Finance,197,0.0255
+Customer Service,Quality Assurance,43,0.0254
+Product Management,Quality Assurance,32,0.0251
+Design,Manufacturing,54,0.0249
+Quality Assurance,Research,42,0.0248
+Administrative,Health Care Provider,114,0.0248
+Human Resources,Strategy/Planning,28,0.0247
+Customer Service,Public Relations,30,0.0242
+Project Management,Supply Chain,27,0.024
+Information Technology,Writing/Editing,33,0.0235
+Administrative,Writing/Editing,33,0.0235
+Analyst,Quality Assurance,39,0.023
+Legal,Strategy/Planning,26,0.0229
+Information Technology,Sales,457,0.0225
+Quality Assurance,Supply Chain,25,0.0222
+Business Development,Management,275,0.0219
+Design,Marketing,47,0.0217
+Administrative,Analyst,79,0.0216
+Customer Service,Human Resources,54,0.0214
+Legal,Writing/Editing,30,0.0213
+Manufacturing,Project Management,79,0.0212
+Research,Strategy/Planning,24,0.0211
+Administrative,Consulting,45,0.0204
+Analyst,Project Management,73,0.0199
+Consulting,Training,39,0.0196
+Human Resources,Management,49,0.0194
+Design,Strategy/Planning,22,0.0194
+Public Relations,Sales,24,0.0194
+Administrative,Information Technology,87,0.0189
+Administrative,Quality Assurance,32,0.0189
+Finance,Information Technology,145,0.0187
+Administrative,Supply Chain,21,0.0186
+Analyst,Business Development,68,0.0186
+Quality Assurance,Strategy/Planning,21,0.0185
+Engineering,Management,224,0.0185
+Administrative,Business Development,85,0.0185
+Accounting/Auditing,Management,87,0.0181
+Customer Service,Product Management,23,0.0181
+Human Resources,Information Technology,45,0.0179
+Accounting/Auditing,Legal,38,0.0178
+Business Development,Supply Chain,20,0.0177
+Public Relations,Strategy/Planning,20,0.0176
+Design,Management,37,0.0171
+Finance,Management,132,0.0171
+Legal,Management,36,0.0168
+Accounting/Auditing,Human Resources,42,0.0167
+Administrative,Sales,76,0.0165
+Design,Product Management,21,0.0165
+Business Development,Legal,35,0.0164
+Finance,Legal,34,0.0159
+Strategy/Planning,Training,18,0.0159
+Sales,Supply Chain,17,0.0151
+Human Resources,Training,30,0.015
+Marketing,Project Management,56,0.015
+Art/Creative,Customer Service,24,0.015
+Art/Creative,Management,23,0.0143
+Accounting/Auditing,Customer Service,56,0.0142
+Accounting/Auditing,Information Technology,68,0.0142
+Strategy/Planning,Writing/Editing,16,0.0141
+Manufacturing,Research,40,0.014
+Health Care Provider,Training,28,0.014
+Business Development,Human Resources,35,0.0139
+Administrative,Public Relations,17,0.0137
+Human Resources,Sales,34,0.0135
+Finance,Project Management,50,0.0134
+Analyst,Management,49,0.0134
+Finance,Product Management,17,0.0134
+Customer Service,Health Care Provider,52,0.0132
+Analyst,Customer Service,48,0.0131
+Project Management,Writing/Editing,18,0.0128
+Education,Health Care Provider,26,0.0127
+Finance,Research,36,0.0126
+Analyst,Marketing,45,0.0123
+Consulting,Human Resources,27,0.0123
+Consulting,Research,27,0.0123
+Customer Service,Project Management,45,0.0121
+Analyst,Product Management,15,0.0118
+Consulting,Marketing,25,0.0114
+Customer Service,Legal,24,0.0112
+Administrative,Training,22,0.011
+Consulting,Legal,23,0.0107
+Education,Writing/Editing,15,0.0107
+Product Management,Supply Chain,12,0.0106
+Customer Service,Engineering,42,0.0106
+Business Development,Training,21,0.0105
+Project Management,Public Relations,13,0.0105
+Education,Research,21,0.0103
+Consulting,Manufacturing,22,0.01
+Design,Writing/Editing,14,0.01
+Human Resources,Project Management,25,0.0099
+Administrative,Engineering,44,0.0096
+Business Development,Research,27,0.0095
+Project Management,Research,27,0.0095
+Health Care Provider,Quality Assurance,16,0.0094
+Administrative,Product Management,12,0.0094
+Project Management,Sales,35,0.0094
+Art/Creative,Research,15,0.0094
+Information Technology,Legal,20,0.0093
+Business Development,Information Technology,117,0.0093
+Health Care Provider,Research,26,0.0091
+Analyst,Human Resources,23,0.0091
+Accounting/Auditing,Supply Chain,10,0.0089
+Business Development,Public Relations,11,0.0089
+Design,Quality Assurance,15,0.0089
+Art/Creative,Strategy/Planning,10,0.0088
+Administrative,Research,25,0.0088
+Administrative,Design,19,0.0088
+Art/Creative,Project Management,14,0.0087
+Accounting/Auditing,Project Management,32,0.0086
+Consulting,Writing/Editing,12,0.0085
+Engineering,Writing/Editing,12,0.0085
+Training,Writing/Editing,12,0.0085
+Legal,Research,18,0.0084
+Administrative,Marketing,38,0.0083
+Administrative,Art/Creative,13,0.0081
+Human Resources,Legal,17,0.0079
+Education,Strategy/Planning,9,0.0079
+Accounting/Auditing,Manufacturing,38,0.0079
+Business Development,Education,16,0.0078
+Business Development,Writing/Editing,11,0.0078
+Quality Assurance,Sales,13,0.0077
+Art/Creative,Quality Assurance,12,0.0075
+Business Development,Design,16,0.0074
+Education,Management,15,0.0073
+Management,Public Relations,9,0.0073
+Finance,Human Resources,18,0.0071
+Consulting,Product Management,9,0.0071
+Product Management,Research,9,0.0071
+Health Care Provider,Strategy/Planning,8,0.007
+Analyst,Legal,15,0.007
+Customer Service,Manufacturing,27,0.0068
+Analyst,Sales,25,0.0068
+Management,Research,19,0.0067
+Project Management,Training,13,0.0065
+Business Development,Quality Assurance,11,0.0065
+Engineering,Finance,50,0.0065
+Management,Writing/Editing,9,0.0064
+Health Care Provider,Human Resources,16,0.0063
+Health Care Provider,Management,102,0.0063
+Finance,Supply Chain,7,0.0062
+Business Development,Engineering,74,0.0061
+Administrative,Manufacturing,28,0.0061
+Customer Service,Design,13,0.006
+Design,Research,13,0.006
+Analyst,Design,13,0.006
+Accounting/Auditing,Quality Assurance,10,0.0059
+Consulting,Education,12,0.0059
+Information Technology,Marketing,30,0.0058
+Art/Creative,Public Relations,7,0.0056
+Marketing,Research,16,0.0056
+Art/Creative,Engineering,9,0.0056
+Legal,Project Management,12,0.0056
+Legal,Supply Chain,6,0.0053
+Consulting,Quality Assurance,9,0.0053
+Design,Sales,11,0.0051
+Information Technology,Training,10,0.005
+Education,Project Management,10,0.0049
+Analyst,Manufacturing,17,0.0046
+Research,Sales,13,0.0046
+Consulting,Supply Chain,5,0.0044
+Education,Sales,9,0.0044
+Education,Human Resources,9,0.0044
+Accounting/Auditing,Business Development,21,0.0044
+Finance,Marketing,22,0.0043
+Health Care Provider,Writing/Editing,6,0.0043
+Quality Assurance,Writing/Editing,6,0.0043
+Human Resources,Writing/Editing,6,0.0043
+Customer Service,Research,12,0.0042
+Legal,Quality Assurance,7,0.0041
+Finance,Quality Assurance,7,0.0041
+Engineering,Sales,50,0.0041
+Human Resources,Manufacturing,10,0.004
+Education,Information Technology,8,0.0039
+Information Technology,Manufacturing,61,0.0036
+Quality Assurance,Training,6,0.0035
+Accounting/Auditing,Engineering,17,0.0035
+Manufacturing,Training,7,0.0035
+Design,Education,7,0.0034
+Analyst,Health Care Provider,12,0.0033
+Human Resources,Public Relations,4,0.0032
+Analyst,Public Relations,4,0.0032
+Health Care Provider,Public Relations,4,0.0032
+Art/Creative,Business Development,5,0.0031
+Design,Training,6,0.003
+Marketing,Training,6,0.003
+Finance,Writing/Editing,4,0.0028
+Customer Service,Writing/Editing,4,0.0028
+Legal,Marketing,6,0.0028
+Design,Finance,6,0.0028
+Accounting/Auditing,Sales,13,0.0027
+Engineering,Training,5,0.0025
+Art/Creative,Sales,4,0.0025
+Art/Creative,Education,4,0.0025
+Finance,Manufacturing,19,0.0025
+Education,Marketing,5,0.0024
+Education,Finance,5,0.0024
+Education,Engineering,5,0.0024
+Public Relations,Quality Assurance,3,0.0024
+Consulting,Public Relations,3,0.0024
+Manufacturing,Public Relations,3,0.0024
+Design,Public Relations,3,0.0024
+Human Resources,Marketing,6,0.0024
+Engineering,Human Resources,6,0.0024
+Health Care Provider,Information Technology,36,0.0022
+Accounting/Auditing,Writing/Editing,3,0.0021
+Manufacturing,Sales,34,0.002
+Health Care Provider,Project Management,7,0.0019
+Accounting/Auditing,Health Care Provider,9,0.0019
+Art/Creative,Training,3,0.0019
+Art/Creative,Finance,3,0.0019
+Art/Creative,Consulting,3,0.0019
+Marketing,Supply Chain,2,0.0018
+Design,Supply Chain,2,0.0018
+Human Resources,Supply Chain,2,0.0018
+Accounting/Auditing,Research,5,0.0018
+Business Development,Manufacturing,22,0.0018
+Public Relations,Research,2,0.0016
+Information Technology,Public Relations,2,0.0016
+Product Management,Writing/Editing,2,0.0016
+Product Management,Training,2,0.0016
+Art/Creative,Product Management,2,0.0016
+Legal,Product Management,2,0.0016
+Engineering,Marketing,8,0.0016
+Sales,Writing/Editing,2,0.0014
+Manufacturing,Writing/Editing,2,0.0014
+Manufacturing,Marketing,7,0.0014
+Art/Creative,Health Care Provider,2,0.0012
+Accounting/Auditing,Art/Creative,2,0.0012
+Analyst,Art/Creative,2,0.0012
+Business Development,Health Care Provider,15,0.0012
+Marketing,Quality Assurance,2,0.0012
+Accounting/Auditing,Marketing,5,0.001
+Legal,Training,2,0.001
+Analyst,Training,2,0.001
+Finance,Training,2,0.001
+Health Care Provider,Sales,16,0.001
+Analyst,Education,2,0.001
+Accounting/Auditing,Education,2,0.001
+Engineering,Legal,2,0.0009
+Accounting/Auditing,Design,2,0.0009
+Finance,Health Care Provider,7,0.0009
+Supply Chain,Writing/Editing,1,0.0009
+Health Care Provider,Supply Chain,1,0.0009
+Research,Supply Chain,1,0.0009
+Supply Chain,Training,1,0.0009
+Public Relations,Supply Chain,1,0.0009
+Art/Creative,Supply Chain,1,0.0009
+Product Management,Public Relations,1,0.0008
+Accounting/Auditing,Public Relations,1,0.0008
+Engineering,Public Relations,1,0.0008
+Legal,Public Relations,1,0.0008
+Finance,Public Relations,1,0.0008
+Human Resources,Research,2,0.0008
+Health Care Provider,Product Management,1,0.0008
+Art/Creative,Manufacturing,1,0.0006
+Human Resources,Quality Assurance,1,0.0006
+Education,Quality Assurance,1,0.0006
+Health Care Provider,Marketing,3,0.0006
+Accounting/Auditing,Training,1,0.0005
+Legal,Sales,1,0.0005
+Legal,Manufacturing,1,0.0005
+Health Care Provider,Legal,1,0.0005
+Design,Human Resources,1,0.0005
+Engineering,Health Care Provider,4,0.0003
+Health Care Provider,Manufacturing,2,0.0001

@@ -1,59 +1,64 @@
-# Market EDA (RQ1): how the code works
+# Market EDA (RQ1)
 
-Owner: Aileen. This covers the Week 2 to 4 market analysis.
+Aileen's part. What U.S. job postings ask for, in the same order as a resume: education, experience, skills, then pay. The final charts go into the slides and the Market section of the website.
 
 ## How to run
 
 1. Make the clean table once (Week 1):
    `python scripts/prepare_data.py --input <Kaggle folder> --output data/processed`
 2. Run the tests: `python -m pytest tests -q`
-3. Open `notebooks/01_data_eda.ipynb` and run all cells. Charts are saved in `figures/`.
+3. Run `notebooks/01_data_eda.ipynb`. This is the full exploration. It also caches the text signals and the skill extraction in `data/processed/`, so the next notebook is fast.
+4. Run `notebooks/04_market_story.ipynb`. This makes the 7 final charts in `figures/final/` and the summary tables in `data/summary/`.
 
-The skill step and the text step save their results in `data/processed/`
-(`job_skills_extracted.parquet`, `text_signals.parquet`), so they only run once.
-These files and `data/review/` are not pushed to GitHub.
+`data/processed/` and `data/review/` stay on my computer (they have full descriptions). `data/summary/` only has counts and shares, so it is fine to push.
 
 ## Files
 
 | File | What it does |
 |---|---|
-| `src/market_analysis.py` | All the numbers: counts, shares, salary summaries, skill statistics |
-| `src/text_signals.py` | Reads years of experience and degree level from description text |
-| `src/market_plots.py` | All the charts, in one shared style |
-| `tests/test_market_analysis.py` | Tests on a small made-up table |
-| `notebooks/01_data_eda.ipynb` | Runs everything in order and saves the charts |
+| `src/data_processing.py` | Week 1: loads the Kaggle tables and makes the clean table |
+| `src/text_signals.py` | Reads years of experience, degree, majors, internship and research mentions from the description |
+| `src/industry_groups.py` | Merges the 144 LinkedIn industries into plain groups (CS/IT, Finance, Health care, ...) |
+| `src/market_analysis.py` | Counts, shares, salary summaries and skill statistics used in 01 |
+| `src/resume_analysis.py` | Degree, majors, years and skills by group, used in 01 and 04 |
+| `src/market_plots.py` | Charts for the exploration notebook (01) |
+| `src/rq1_charts.py` | Tables and charts for the 7 final charts (04) |
+| `tests/` | Tests on small made-up tables |
 
-## Notebook sections, functions and charts
+## Final charts (notebook 04)
 
-| Section | Question | Main function | Chart |
-|---|---|---|---|
-| 0 | How many postings per month? | `postings_over_time` | `postings_over_time.png` |
-| 1.1 | Which job functions are largest? | `count_by_group` | `postings_by_function.png` |
-| 1.2 | Which functions appear on the same posting? | `function_cooccurrence` | `function_cooccurrence.png` |
-| 1.3 | Which industries hire which jobs? | `crosstab_share` | `industry_by_function.png` |
-| 1.4 | Which companies post the most? | `company_concentration` | `top_companies.png` |
-| 1.5 | Where are the jobs? | `rate_by_group` | `map_postings_by_state.png` |
-| 2.1 | Run Jessy's skill extractor on all postings | `extract_skills_for_jobs` | none |
-| 2.2 | Which skills does each function ask for? (skill heatmap) | `skill_share_by_function`, `signature_skills` | `skills_by_function.png` |
-| 2.3 to 2.4 | Typical skills and skill pairs | `signature_skills`, `skill_pairs` | tables |
-| 2.5 | Hand check of the extractor | none | `data/review/skill_review_sample.csv` |
-| 2.6 | Which skills go with higher pay? | `skill_salary_premium` | `skill_salary_premium.png` |
-| 3 | Years and degree asked, by level | `experience_paradox`, `mix_by_group` | `experience_by_level.png`, `degree_by_function.png` |
-| 4.1 | Which functions show a salary? | `rate_by_group` | `salary_disclosure_by_function.png` |
-| 4.2 | Do pay laws change disclosure? | `add_pay_transparency_flag` | `pay_law_waffle.png`, `map_salary_disclosure.png` |
-| 4.3 | Salary by function and level | `salary_ranges` | `salary_range_by_function.png`, `salary_range_by_level.png` |
-| 4.4 | Salary and disclosure by industry | `salary_ranges`, `rate_by_group` | `salary_range_by_industry.png` |
-| 4.5 | How wide are posted ranges? | `range_width` | table |
-| 4.6 | Do remote jobs pay differently? | `remote_pay_gap` | `remote_vs_onsite_pay.png` |
-| 5.1 | Remote share by function | `rate_by_group` | `remote_by_function.png` |
-| 5.2 | Applications per 100 views | `competition_by_group` | `competition_by_function.png` |
-| 5.3 | Missing data by function | `missing_matrix` | `missing_by_function.png` |
+| # | Chart | Summary table |
+|---|---|---|
+| 1 | Minimum degree by industry | `rq1_min_degree_by_industry.csv` |
+| 2 | Top 3 majors by industry | `rq1_majors_by_industry.csv` |
+| 3 | Years asked by LinkedIn level | `rq1_years_by_level.csv` |
+| 4 | Median years by industry and level | `rq1_years_by_industry_level.csv` |
+| 5 | Top skills by industry | `rq1_skills_by_industry.csv` |
+| 6 | Job functions that share postings | `rq1_function_pairs.csv` |
+| 7 | Median posted salary by industry and state | `rq1_salary_by_industry_state.csv` |
 
-## Rules used everywhere
+The PNGs are in `figures/final/` with the same numbers (`1_min_degree_by_industry.png`, ...). `rq1_takeaways.csv` has one sentence per chart (columns: chart, title, takeaway), and `industry_groups.csv` lists which LinkedIn industries are in each group.
 
-- Job function and industry can have several labels. A posting counts once under each label.
-- A missing salary is never treated as zero.
-- Salary charts use full-time postings with a yearly USD salary between $10,000 and $1,000,000.
-- Every chart shows the number of postings behind each value (n).
-- Groups with too few postings are left out. The cutoff is printed in each chart's note.
-- Pay law start dates: CO 2021-01-01, CA and WA 2023-01-01, NY 2023-09-17, HI 2024-01-01, MD 2024-10-01 (clockspot.com, checked Nov 17, 2026).
+### For the website
+
+The app can read the files in `data/summary/` directly, without the full data:
+
+- show `figures/final/<n>_*.png` with the sentence from `rq1_takeaways.csv` under it, in the order 1 to 7
+- the Industry filter can use `industry_groups.csv` so the website uses the same groups as the charts
+
+## Rules I used everywhere
+
+- Industry = the hiring company's LinkedIn industry, merged into groups. A posting tagged twice in the same group counts once.
+- Staffing and Recruiting is left out of the industry charts, because those firms post jobs for other companies.
+- Job function and industry can have several labels. A posting counts once under each label, so shares across labels can add up to more than 100%.
+- If a posting does not name a degree, a major or years, it is left out of that share. Not stated is never read as not required.
+- Years = the smallest number the posting names ("3-5 years" counts as 3).
+- Salary = full-time postings with a yearly USD salary between $10,000 and $1,000,000. A missing salary is never treated as zero. This is posted pay, not the legal minimum wage.
+- Small groups are left out or marked "too few". The cutoff is written in each chart's note.
+
+## Choices that changed the charts
+
+- I left Retail out of chart 4, because its LinkedIn levels do not follow years (Mid-Senior level asks fewer years than Entry level). The notebook prints the Retail numbers.
+- I left Management + Manufacturing out of chart 6. Almost every Manufacturing posting also has the Management tag, so that pair is about tagging.
+- In chart 5 I hide skills named in under 3% of postings, and I drop the skill "Manufacturing" because it is the industry name, not a skill.
+- In chart 7 I use the 6 states with the most salary postings. With 10 states, most smaller cells had under 50 postings.

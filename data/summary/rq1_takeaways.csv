@@ -1,0 +1,8 @@
+chart,title,takeaway
+1,Minimum degree by industry,"A bachelor's degree is the usual minimum, but Government and public safety asks for a master's or higher most often (12% of postings that name a degree), while Retail mostly asks for less than a bachelor's (78%)."
+2,Majors by industry,"The most named major fits each field: CS/IT names Computer Science (44%), Health care names Nursing (50%), Finance names Business (40%)."
+3,Years by level,"Even entry level postings ask for experience: 34% of the ones that give a number ask for 3 or more years, and the median is 2 years."
+4,Years by industry and level,Entry level jobs ask for a median of 1 to 3 years and Director jobs 5 to 7 years; CS/IT asks the most at entry level (3 years).
+5,Skills by industry,Each field has its own top skill: CS/IT asks for Agile (14%) and Health care asks for Patient Care (41%).
+6,Functions on the same posting,"Close job functions often share postings, for example Business Development and Sales (92%), so a person in one may be able to apply to the other."
+7,Salary by industry and state,"Industry changes posted pay more than state does: CS/IT pays $85k to $152k in these states, while Retail pays $44k to $58k."

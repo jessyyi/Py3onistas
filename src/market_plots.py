@@ -7,7 +7,7 @@ Every chart follows the same rules so the slides look like one set:
 - few labels, large text, no heavy grid lines
 
 Each function takes a summary table from market_analysis.py, draws one
-figure, saves it as PNG when ``path`` is given, and returns the figure.
+figure, saves it as PNG when path is given, and returns the figure.
 """
 
 from __future__ import annotations
@@ -95,7 +95,7 @@ def _save(fig, path) -> None:
 
 
 def _row_colors(n: int, top: int, bottom: int) -> list[str]:
-    """Rows sorted low to high: the last ``top`` blue, the first ``bottom`` red, rest gray."""
+    """Rows sorted low to high: the last top blue, the first bottom red, rest gray."""
     return [RED if i < bottom else BLUE if i >= n - top else LIGHT for i in range(n)]
 
 
@@ -114,10 +114,10 @@ def plot_lollipop(values: pd.Series, title: str, subtitle: str, note: str,
                   average_label: str = "all postings", value_format: str = "{:.0%}",
                   counts: pd.Series | None = None, sort: bool = True,
                   colors: list[str] | None = None, label_all: bool = False, path=None):
-    """Dots on thin stems. The ``top`` highest are blue, the ``bottom`` lowest
+    """Dots on thin stems. The top highest are blue, the bottom lowest
     red, the rest gray; only colored rows get a value label (unless
-    ``label_all``). With ``sort=False`` the given order is kept (first row at
-    the top). ``colors`` overrides the automatic colors row by row."""
+    label_all). With sort=False the given order is kept (first row at
+    the top). colors overrides the automatic colors row by row."""
     if colors is not None:
         colors = pd.Series(list(colors), index=values.index)
     values = values.dropna()   # a group with no data would leave an empty row
@@ -172,8 +172,8 @@ def plot_lollipop(values: pd.Series, title: str, subtitle: str, note: str,
 
 def plot_diverging_lollipop(values: pd.Series, title: str, subtitle: str, note: str,
                             counts: pd.Series | None = None, highlight: int = 3, path=None):
-    """Signed values (0.05 = +5%) around a zero line. The ``highlight`` largest
-    positive values are blue and the ``highlight`` most negative are red, with
+    """Signed values (0.05 = +5%) around a zero line. The highlight largest
+    positive values are blue and the highlight most negative are red, with
     labels; the rest are gray."""
     if _empty(values, title):
         return None
@@ -226,8 +226,8 @@ def plot_diverging_lollipop(values: pd.Series, title: str, subtitle: str, note: 
 def plot_ranges(summary: pd.DataFrame, title: str, subtitle: str, note: str,
                 top: int = 3, sort: bool = True, all_blue: bool = False, path=None):
     """Salary ranges: line from the 25th to the 75th percentile, dot at the
-    median, in thousand USD. The ``top`` highest medians are blue (or every
-    row with ``all_blue``). With ``sort=False`` the given order is kept, first
+    median, in thousand USD. The top highest medians are blue (or every
+    row with all_blue). With sort=False the given order is kept, first
     row at the top."""
     if _empty(summary, title):
         return None
@@ -268,12 +268,12 @@ def plot_ranges(summary: pd.DataFrame, title: str, subtitle: str, note: str,
 
 def plot_dumbbell(table: pd.DataFrame, left: str, right: str, left_label: str, right_label: str,
                   title: str, subtitle: str, note: str, path=None):
-    """Two medians per row joined by a line (gray = ``left``, blue = ``right``),
-    in thousand USD. Rows sorted by the gap."""
+    """Two medians per row joined by a line (gray = left, blue = right),
+    in thousand USD. Rows sorted by the percent gap."""
     if _empty(table, title):
         return None
     k = table[[left, right]] / 1000
-    k = k.loc[(k[right] - k[left]).sort_values().index]
+    k = k.loc[(k[right] / k[left]).sort_values().index]
     n = len(k)
     y = np.arange(n)
     labels_len = max(len(str(i)) for i in k.index)
@@ -314,7 +314,7 @@ def plot_bubble_matrix(share: pd.DataFrame, title: str, subtitle: str, note: str
                        path=None):
     """Rows by columns of shares (0 to 1) drawn as circles: bigger = higher.
 
-    Cells where ``highlight`` is True are colored and labeled with their value;
+    Cells where highlight is True are colored and labeled with their value;
     the rest are light gray. Empty or missing cells are left blank.
     """
     if _empty(share, title):
@@ -382,14 +382,19 @@ def plot_bubble_matrix(share: pd.DataFrame, title: str, subtitle: str, note: str
     return fig
 
 
-def plot_stacked_mix(table: pd.DataFrame, title: str, subtitle: str, note: str, path=None):
-    """100% stacked bars, first row at the top. Columns are ordered categories:
-    the first is light gray, the rest go from light to dark blue."""
+def plot_stacked_mix(table: pd.DataFrame, title: str, subtitle: str, note: str, path=None,
+                     first_gray: bool = True):
+    """100% stacked bars, first row at the top. Columns are ordered categories
+    from light to dark blue. With first_gray the first column (such as
+    "None stated") is light gray."""
     if _empty(table, title):
         return None
     table = table.iloc[::-1]
     k = table.shape[1]
-    shades = [FAINT] + [BLUES(x) for x in np.linspace(0.3, 1.0, k - 1)]
+    if first_gray:
+        shades = [FAINT] + [BLUES(x) for x in np.linspace(0.3, 1.0, k - 1)]
+    else:
+        shades = [BLUES(x) for x in np.linspace(0.2, 1.0, k)]
     labels_len = max(len(str(i)) for i in table.index)
     fig, ax = _new_figure(0.42 * len(table) + 2.6, labels_len, right=0.97)
     left = np.zeros(len(table))
@@ -421,7 +426,7 @@ def plot_stacked_mix(table: pd.DataFrame, title: str, subtitle: str, note: str, 
 def plot_waffle_compare(rates: dict[str, float], counts: dict[str, int], title: str,
                         subtitle: str, note: str, unit: str = "states a salary", path=None):
     """One 10 x 10 grid per group: each square is 1 posting out of 100, blue
-    squares are the ones that ``unit``."""
+    squares are the ones that unit."""
     if _empty(rates, title):
         return None
     k = len(rates)
@@ -453,7 +458,7 @@ def plot_state_tiles(values: pd.Series, title: str, subtitle: str, note: str,
                      value_format: str = "{:.0%}", highlight: set[str] | None = None,
                      highlight_label: str | None = None, path=None):
     """U.S. tile map: one square per state, darker blue = higher value. States
-    without a value are light gray. ``highlight`` draws a black outline around
+    without a value are light gray. highlight draws a black outline around
     some states."""
     if _empty(values, title):
         return None
@@ -514,6 +519,43 @@ def plot_over_time(counts: pd.Series, title: str, subtitle: str, note: str, path
     ax.tick_params(labelsize=9, colors=QUIET)
     ax.grid(axis="y", color=FAINT, linewidth=1)
     ax.set_axisbelow(True)
+    _clean(ax)
+    _header_footer(fig, title, subtitle, note)
+    _save(fig, path)
+    return fig
+
+
+def plot_paired_dots(table: pd.DataFrame, columns: list[str], labels: list[str], title: str,
+                     subtitle: str, note: str, value_format: str = "{:.1%}",
+                     counts: pd.Series | None = None, path=None):
+    """Two values per row as two dots on one line (blue and dark blue).
+
+    Rows keep the given order (first row at the top). Used for the share of
+    postings that count internships and the share that ask for research.
+    """
+    if _empty(table, title):
+        return None
+    t = table[columns].iloc[::-1]
+    names = [f"{r}  (n = {int(counts[r]):,})" if counts is not None else str(r) for r in t.index]
+    fig, ax = _new_figure(0.42 * len(t) + 2.4, max(len(n) for n in names))
+    y = np.arange(len(t))
+    colors = [BLUE, "#123f78"]
+    for i in y:
+        ax.hlines(i, 0, t.iloc[i].max(), color=FAINT, linewidth=2, zorder=1)
+    for col, label, color in zip(columns, labels, colors):
+        ax.scatter(t[col], y, s=80, color=color, zorder=3, label=label, edgecolor="white", linewidth=1)
+    for i in y:
+        a, b = t.iloc[i][columns[0]], t.iloc[i][columns[1]]
+        ax.annotate(value_format.format(a), (a, i), xytext=(0, 9), textcoords="offset points",
+                    ha="center", fontsize=8.5, color=colors[0])
+        ax.annotate(value_format.format(b), (b, i), xytext=(0, -14), textcoords="offset points",
+                    ha="center", fontsize=8.5, color=colors[1])
+    ax.set_yticks(y)
+    ax.set_yticklabels(names, fontsize=10.5)
+    ax.set_xticks([])
+    ax.set_xlim(-0.002, t.to_numpy().max() * 1.15)
+    ax.set_ylim(-0.7, len(t) - 0.3)
+    ax.legend(loc="lower left", bbox_to_anchor=(0, 1.0), ncol=2, frameon=False, fontsize=9.5)
     _clean(ax)
     _header_footer(fig, title, subtitle, note)
     _save(fig, path)
