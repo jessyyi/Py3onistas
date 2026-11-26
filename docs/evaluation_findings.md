@@ -145,6 +145,7 @@ This evaluation has several limitations:
 5. Skill-only rankings can be incomplete when skill evidence is missing.
 6. Mandatory eligibility conditions are not independently verified.
 7. Hybrid weights have not been validated on a separate representative evaluation dataset.
+8. Missing skill evidence produces an undefined skill-coverage score rather than zero coverage. The existing hybrid model falls back to text similarity, while skill-only rankings exclude jobs without detected skill evidence.
 
 Accordingly, the findings should be interpreted as an exploratory comparison rather than evidence of broad real-world recommendation performance.
 
