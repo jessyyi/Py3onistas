@@ -1,0 +1,43 @@
+{
+  "mode": "full",
+  "row_count": 119055,
+  "vocabulary_size": 383799,
+  "matrix_shape": [
+    119055,
+    383799
+  ],
+  "matrix_nnz": 28355663,
+  "matrix_dtype": "float64",
+  "sparse_memory_mb": 324.96,
+  "source_sha256": "f6c6d6178f01707f06613c771e8fdd23f4fd2a5f986306b54e46894508aed3c3",
+  "market_sha256": "78c1f7900009d8daa5d13c93ec6a5c45f9d819f613bb808eeb26c8ada435abf0",
+  "matching_code_sha256": "779f664d6788da03a8e088207033ed060f56a97971d8cdfb3cfdd367bc053546",
+  "sklearn_version": "1.4.2",
+  "scipy_version": "1.13.1",
+  "pandas_version": "2.2.3",
+  "numpy_version": "1.26.4",
+  "joblib_version": "1.4.2",
+  "fit_seconds": 22.05,
+  "build_seconds": 39.35,
+  "mean_text_scoring_seconds": 0.2362,
+  "max_score_difference": 0.0,
+  "equivalence_test_passed": true,
+  "assets": {
+    "matching_jobs.parquet": {
+      "size_mb": 3.55,
+      "sha256": "78c1f7900009d8daa5d13c93ec6a5c45f9d819f613bb808eeb26c8ada435abf0"
+    },
+    "tfidf_vectorizer.joblib": {
+      "size_mb": 5.27,
+      "sha256": "7714a8f8dcb7584b1192668d3f18b8b8453c7288c194e2c8949442636906f03f"
+    },
+    "tfidf_matrix.npz": {
+      "size_mb": 242.32,
+      "sha256": "08c77858a0cd344117c06702b8472acbd7e0f3eff165d01267a56772500a612e"
+    },
+    "matching_job_ids.npy": {
+      "size_mb": 0.91,
+      "sha256": "15afaaec7384b0d9dbabb98bd1c2c61a1e66a62d11590d8c14ce0d25b303b5ab"
+    }
+  }
+}

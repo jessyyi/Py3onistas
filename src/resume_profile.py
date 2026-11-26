@@ -33,6 +33,7 @@ EMAIL_PATTERN = re.compile(r"\b[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}\b")
 
 
 def _heading(text: str) -> str | None:
+    """Identify recognized resume section headings."""
     normalized = re.sub(r"[\s:—–\-]+", " ", text.strip()).casefold()
     normalized = normalized.strip(" •_|*#")
     for category, words in SECTION_HEADERS.items():
@@ -58,6 +59,7 @@ def parse_sections(text: str) -> dict[str, list[str]]:
 
 
 def _unique(lines: list[str], limit: int = 12) -> list[str]:
+    """Remove duplicate text entries while preserving their original order."""
     seen = set()
     output = []
     for line in lines:

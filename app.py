@@ -23,6 +23,13 @@ from src.dashboard_charts import DEFAULT_CHARTS, available_charts, chart_data, d
 from src.matching import TextMatcher
 from src.recommendation import rank_job_categories, score_jobs
 
+from src.industry_groups import LOOKUP
+
+from src.app_data import (
+    full_market_available,
+    load_market_data,
+)
+
 ROOT = Path(__file__).resolve().parent
 THEMES = {
     "Forest Atelier": ("#32645b", "#f4f6f2", "#203e39"),
@@ -90,6 +97,7 @@ def get_matcher(_jobs: pd.DataFrame, source: str) -> TextMatcher:
 
 
 def theme_style(name: str) -> tuple[str, str]:
+    """Apply the selected visual theme and return its accent and text colors."""
     accent, pale, dark = THEMES[name]
     st.markdown(
         f"""<style>
@@ -112,6 +120,7 @@ def theme_style(name: str) -> tuple[str, str]:
 
 
 def label_options(jobs: pd.DataFrame, field: str) -> list[str]:
+    """Return sorted unique labels for the requested job attribute."""
     if field not in jobs.columns:
         return []
     if field in {"job_function", "industry", "job_industry"}:
@@ -120,6 +129,7 @@ def label_options(jobs: pd.DataFrame, field: str) -> list[str]:
 
 
 def subset(jobs: pd.DataFrame, column: str, choice: str) -> pd.DataFrame:
+    """Filter job postings by the selected attribute, preserving all rows for All."""
     if choice == "All" or column not in jobs.columns:
         return jobs
     if column in {"job_function", "industry", "job_industry"}:
@@ -128,6 +138,7 @@ def subset(jobs: pd.DataFrame, column: str, choice: str) -> pd.DataFrame:
 
 
 def counts(jobs: pd.DataFrame, column: str, top: int = 8) -> pd.Series:
+    """Count the most frequent labels in a job attribute column."""
     if column not in jobs.columns:
         return pd.Series(dtype=int)
     c = Counter(label for group in jobs[column] for label in to_labels(group))
@@ -135,6 +146,7 @@ def counts(jobs: pd.DataFrame, column: str, top: int = 8) -> pd.Series:
 
 
 def card_plot(series: pd.Series, title: str, accent: str) -> None:
+    """Render a horizontal bar chart for the supplied category counts."""
     if series.empty:
         st.info(f"No available data for {title.lower()}.")
         return
@@ -162,6 +174,7 @@ def _valid_salary(data: pd.DataFrame) -> pd.Series:
 
 
 def _chart_bar(series: pd.Series, title: str, accent: str, *, horizontal: bool = True, height: int = 340) -> None:
+    """Render a configurable horizontal or vertical categorical bar chart."""
     if series.empty:
         st.info(f"No available data for {title.lower()}.")
         return
@@ -193,12 +206,30 @@ def _safe_widget_selection(key: str, options: list[str], default="All") -> None:
 def market_page(jobs: pd.DataFrame, source: str, accent: str) -> None:
     """Compact hierarchical filters and a user-customizable market dashboard."""
     st.title("Market Explorer")
-    st.caption("Explore historical U.S. LinkedIn job postings (2023–2024). All charts use filtered research data.")
+
+    st.caption(
+        "Explore historical LinkedIn job postings "
+        "from March 24 to April 20, 2024. "
+        "All charts use the selected research dataset."
+    )
 
     role_groups = group_counts(jobs, "job_function", "role")
-    industry_groups = group_counts(jobs, "industry", "industry")
+    has_full_taxonomy = "industry_group" in jobs.columns
+
+    if has_full_taxonomy:
+        industry_groups = label_counts(
+            jobs, "industry_group"
+        )
+    else:
+        industry_groups = group_counts(
+            jobs, "industry", "industry"
+        )
+
     available_states = sorted_states(jobs)
-    regions = [r for r in REGION_SUBREGIONS if any(state_region(x) == r for x in available_states)]
+    regions = [
+        r for r in REGION_SUBREGIONS
+        if any(state_region(x) == r for x in available_states)
+    ]
 
     with st.container(border=True):
         role_col, region_col, industry_col, keyword_col = st.columns([1, 0.85, 1, 1.1])
@@ -216,7 +247,19 @@ def market_page(jobs: pd.DataFrame, source: str, accent: str) -> None:
                     _safe_widget_selection("market_role_specific", role_opts)
                     role_specific = st.selectbox("Specific Job Function", role_opts, key="market_role_specific")
                 with detail2:
-                    industry_opts = _ranked_specific_options(jobs, "industry", industry_group, "industry")
+
+                    if has_full_taxonomy:
+                        raw_counts = label_counts(jobs, "industry")
+                        industry_opts = ["All"] + [
+                             name for name in raw_counts.index
+                             if industry_group == "All"
+                             or LOOKUP.get(name, name) == industry_group
+                             ]
+                    else:
+                        industry_opts = _ranked_specific_options(
+                            jobs, "industry", industry_group, "industry"
+                            )
+
                     _safe_widget_selection("market_industry_specific", industry_opts)
                     industry_specific = st.selectbox("Specific Industry", industry_opts, key="market_industry_specific")
 
@@ -236,7 +279,16 @@ def market_page(jobs: pd.DataFrame, source: str, accent: str) -> None:
                 degree = st.selectbox("Detected Degree Mention", ["All"] + label_options(jobs, "degree"), key="market_degree")
             else:
                 degree = "All"
-            st.caption("Broad industry and role groupings are heuristic. Refine their taxonomy with Aileen before presenting research results.")
+
+            if has_full_taxonomy:
+                st.caption(
+                    "Industry groups follow the project's research taxonomy. "
+                    "Career-field groupings remain heuristic."
+                )
+            else:
+                st.caption(
+                    "Demonstration mode uses heuristic groupings."
+                )
 
     # The corresponding widget values persist even when the Advanced panel is closed.
     filtered = filter_labels(jobs, "job_function", group=role_group,
@@ -244,8 +296,30 @@ def market_page(jobs: pd.DataFrame, source: str, accent: str) -> None:
     filtered = filter_location(filtered, region=region)
     if selected_states:
         filtered = filtered.loc[filtered["state"].fillna("").astype(str).str.upper().isin(selected_states)]
-    filtered = filter_labels(filtered, "industry", group=industry_group,
-                             specific=industry_specific, kind="industry")
+    if has_full_taxonomy:
+        if industry_group != "All":
+            filtered = filtered.loc[
+                filtered["industry_group"].map(
+                    lambda values: industry_group in values
+                )
+            ]
+
+        if industry_specific != "All":
+            filtered = filtered.loc[
+                filtered["industry"].map(
+                    lambda values: industry_specific in values
+                )
+            ]
+
+    else:
+        filtered = filter_labels(
+            filtered,
+            "industry",
+            group=industry_group,
+            specific=industry_specific,
+            kind="industry",
+        )
+
     filtered = subset(subset(filtered, "experience_level", experience), "work_type", work_type)
     filtered = subset(filtered, "degree", degree)
     if keyword.strip():
@@ -261,7 +335,18 @@ def market_page(jobs: pd.DataFrame, source: str, accent: str) -> None:
             if key.startswith("market_"):
                 del st.session_state[key]
         st.rerun()
-    st.info("Historical data only. The convenience sample is not representative of the U.S. labor market. These are not verified current vacancies.")
+    if source == "Full historical dataset":
+        st.info(
+            f"This dashboard covers {len(jobs):,} historical "
+            "postings from our study dataset. "
+            "It is not a representative census of the labor "
+            "market or a live vacancy database."
+        )
+    else:
+        st.info(
+            f"Historical data only. Data source: {source}. "
+            "These are not verified current vacancies."
+        )
     if filtered.empty:
         st.warning("No postings match these filters. Try Reset All or broaden your selection.")
         return
@@ -327,6 +412,7 @@ def parse_resume(filename: str, file_bytes: bytes) -> str:
 
 
 def matching_page(jobs: pd.DataFrame, source: str, accent: str) -> None:
+    """Render resume parsing, candidate editing, and explainable job recommendations."""
     st.title("Resume Matching")
     st.caption("Discover relevant historical job postings and inspect the evidence behind each recommendation.")
     col_upload, col_profile = st.columns([1, 1.5])
@@ -521,32 +607,88 @@ def resume_studio_page() -> None:
     st.caption("Resume Studio creates editable documents; it does not verify claims or guarantee automated screening results.")
 
 
+
 def main() -> None:
-    st.set_page_config(page_title="JobScope · Career Intelligence", page_icon="📊", layout="wide")
+    """Configure the Streamlit application, visual theme, and page navigation."""
+    st.set_page_config(
+        page_title="JobScope · Career Intelligence",
+        page_icon="📊",
+        layout="wide",
+    )
+
     heading, theme = st.columns([5, 1])
-    heading.markdown("### ◈ JobScope  <span style='font-size:0.82rem;opacity:.6;font-weight:400'>CAREER INTELLIGENCE</span>", unsafe_allow_html=True)
-    selected_theme = theme.selectbox("Design Palette", list(THEMES), label_visibility="collapsed")
+
+    heading.markdown(
+        "### ◈ JobScope  "
+        "<span style='font-size:0.82rem;opacity:.6;"
+        "font-weight:400'>CAREER INTELLIGENCE</span>",
+        unsafe_allow_html=True,
+    )
+
+    selected_theme = theme.selectbox(
+        "Design Palette",
+        list(THEMES),
+        label_visibility="collapsed",
+    )
+
     accent, _ = theme_style(selected_theme)
 
     def market_view():
+        """Load the available market dataset and render the market dashboard."""
         try:
-            jobs, source = load_jobs()
+            if full_market_available():
+                jobs = load_market_data()
+                source = "Full historical dataset"
+            else:
+                jobs, source = load_jobs()
+                st.warning(
+                    "Full dataset unavailable. "
+                    f"Displaying: {source}."
+                )
+
             market_page(jobs, source, accent)
+
         except Exception as exc:
-            st.error(f"Market data could not be loaded: {exc}")
+            st.error(
+                f"Market data could not be loaded: {exc}"
+            )
 
     def matching_view():
+        """Load the matching dataset and render the recommendation interface."""
         try:
             jobs, source = load_jobs()
             matching_page(jobs, source, accent)
-        except Exception as exc:
-            st.error(f"Matching data could not be loaded: {exc}")
 
-    nav = st.navigation([
-        st.Page(market_view, title="Market Explorer", icon=":material/monitoring:", url_path="market" , default=True),
-        st.Page(matching_view, title="Job Matching", icon=":material/work:", url_path="matching"),
-        st.Page(resume_studio_page, title="Resume Studio", icon=":material/description:", url_path="studio"),
-    ], position="top")
+        except Exception as exc:
+            st.error(
+                f"Matching data could not be loaded: {exc}"
+            )
+
+    nav = st.navigation(
+        [
+            st.Page(
+                market_view,
+                title="Market Explorer",
+                icon=":material/monitoring:",
+                url_path="market",
+                default=True,
+            ),
+            st.Page(
+                matching_view,
+                title="Job Matching",
+                icon=":material/work:",
+                url_path="matching",
+            ),
+            st.Page(
+                resume_studio_page,
+                title="Resume Studio",
+                icon=":material/description:",
+                url_path="studio",
+            ),
+        ],
+        position="top",
+    )
+
     nav.run()
 
 

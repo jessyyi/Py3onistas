@@ -99,6 +99,7 @@ def filter_labels(data: pd.DataFrame, column: str, *, group: str = "All", specif
     if column not in data or (group == "All" and specific == "All"):
         return data
     def keep(cell):
+        """Determine whether the job labels satisfy the selected filter criteria."""
         values = labels(cell)
         if specific != "All":
             return specific in values and (group == "All" or group_name(specific, kind) == group)
@@ -107,6 +108,7 @@ def filter_labels(data: pd.DataFrame, column: str, *, group: str = "All", specif
 
 
 def state_subregion(state: str) -> str:
+    """Map a state abbreviation to its geographic subregion."""
     state = str(state).upper().strip()
     for subregion, states in STATE_SUBREGIONS.items():
         if state in states:
@@ -115,6 +117,7 @@ def state_subregion(state: str) -> str:
 
 
 def state_region(state: str) -> str:
+    """Map a state abbreviation to its broader geographic region."""
     subregion = state_subregion(state)
     for region, subs in REGION_SUBREGIONS.items():
         if subregion in subs:
@@ -123,6 +126,7 @@ def state_region(state: str) -> str:
 
 
 def filter_location(data: pd.DataFrame, region: str = "All", subregion: str = "All", state: str = "All") -> pd.DataFrame:
+    """Filter historical postings by the selected geographic criteria."""
     if "state" not in data:
         return data
     values = data["state"].fillna("").astype(str).str.upper().str.strip()
@@ -137,6 +141,7 @@ def filter_location(data: pd.DataFrame, region: str = "All", subregion: str = "A
 
 
 def sorted_states(data: pd.DataFrame) -> list[str]:
+    """Return state options ordered for the geographic filter."""
     if "state" not in data:
         return []
     series = data["state"].dropna().astype(str).str.upper().str.strip()

@@ -31,6 +31,7 @@ def build_resume_docx(profile: dict[str, str], template: str = "Technical Classi
     normal.paragraph_format.space_after = Pt(3)
 
     def add_header(title: str) -> None:
+        """Add the candidate heading and contact information to the resume document."""
         paragraph = document.add_paragraph()
         paragraph.paragraph_format.space_before = Pt(10)
         paragraph.paragraph_format.space_after = Pt(3)
