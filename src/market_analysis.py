@@ -1,13 +1,12 @@
-"""Market analysis on the clean job table (RQ1).
+"""My market analysis functions for RQ1.
 
-Every function here takes the clean table from
-``data_processing.load_clean_jobs`` (plus, for a few, extra tables) and
-returns a small summary table. Charts live in ``market_plots.py`` and the
-notebook ``notebooks/01_data_eda.ipynb`` calls both in order.
+Each function takes the clean table from data_processing.load_clean_jobs
+(a few also need extra tables) and returns a small summary table. The charts
+are in market_plots.py, and notebooks/01_data_eda.ipynb calls both in order.
 
-Counting rule for list columns (``job_function``, ``industry``, ``skills``):
-a posting with several labels counts once under each label. Shares are
-computed within each label, so across labels they can add up to more than 100%.
+How I count list columns (job_function, industry, skills): a posting with
+several labels counts once under each label. Shares are within each label,
+so across labels they can add up to more than 100%.
 """
 
 from __future__ import annotations
@@ -25,9 +24,9 @@ FULL_TIME = "Full-time"
 SALARY_BOUNDS = (10_000, 1_000_000)
 STAFFING_INDUSTRY = "Staffing and Recruiting"
 
-# Dates from which a state required salary ranges in job postings.
+# start date of each state's law that makes job postings show a salary range
 # Source: https://www.clockspot.com/articles/pay-transparency-laws-by-state (checked Nov 17, 2026).
-# A law only counts for postings listed on or after its start date.
+# I only count the law for postings listed on or after that date
 PAY_TRANSPARENCY_START = {
     "CO": date(2021, 1, 1),
     "CA": date(2023, 1, 1),
@@ -47,12 +46,12 @@ def _is_list(value) -> bool:
 
 
 def _explode_if_list(df: pd.DataFrame, column: str) -> pd.DataFrame:
-    """One row per label when ``column`` holds lists. Empty lists are dropped."""
+    """One row per label when column holds lists. Empty lists are dropped."""
     first = df[column].dropna().head(1)
-    # Parquet gives lists back as numpy arrays, so _is_list checks for both.
+    # parquet gives lists back as numpy arrays, so I check for both
     if len(first) and _is_list(first.iloc[0]):
         df = df.explode(column)
-    # New index, because explode repeats the old row labels.
+    # explode repeats the old index, so I reset it
     return df.dropna(subset=[column]).reset_index(drop=True)
 
 
@@ -72,7 +71,7 @@ def _valid_salary(jobs: pd.DataFrame, full_time_only: bool = True,
 def add_posting_details(jobs: pd.DataFrame, tables: dict[str, pd.DataFrame]) -> pd.DataFrame:
     """Add views, applies and company size from the raw Kaggle tables.
 
-    ``tables`` comes from ``data_processing.load_raw_tables``. The clean table
+    tables comes from data_processing.load_raw_tables. The clean table
     itself is not changed; this returns a copy with three more columns.
     company_size is LinkedIn's 0 to 7 size scale (0 = smallest).
     """
@@ -99,7 +98,7 @@ def count_by_group(jobs: pd.DataFrame, by: str, top: int | None = None) -> pd.Da
 def function_cooccurrence(jobs: pd.DataFrame, top: int = 12) -> pd.DataFrame:
     """For each pair of job functions: share of postings tagged A that are also tagged B.
 
-    Rows are A, columns are B, the diagonal is left empty. Only the ``top``
+    Rows are A, columns are B, the diagonal is left empty. Only the top
     largest functions are kept.
     """
     labels = jobs["job_function"][jobs["job_function"].apply(len) > 0]
@@ -122,7 +121,7 @@ def crosstab_share(jobs: pd.DataFrame, row: str, col: str,
 
     Example: row="industry", col="job_function" answers "of the postings in
     Hospitals and Health Care, what share are Sales jobs?". Returns
-    ``(share, postings_per_row)``.
+    (share, postings_per_row).
     """
     df = _explode_if_list(_explode_if_list(jobs[["job_id", row, col]], row), col)
     rows = df.groupby(row)["job_id"].nunique().sort_values(ascending=False).head(top_rows)
@@ -136,7 +135,7 @@ def crosstab_share(jobs: pd.DataFrame, row: str, col: str,
 def company_concentration(jobs: pd.DataFrame, top: int = 20) -> tuple[pd.DataFrame, dict]:
     """Largest employers by postings, and how much of the market they hold.
 
-    ``info`` reports the number of companies, the share of postings from the
+    info reports the number of companies, the share of postings from the
     top 1% of companies, and the share from staffing and recruiting firms.
     """
     counts = jobs["company_name"].value_counts()
@@ -167,9 +166,9 @@ def extract_skills_for_jobs(
 ) -> pd.DataFrame:
     """Run a skill extractor on every description, once.
 
-    Returns ``job_id`` and ``skills`` (a sorted list per job). With
-    ``cache_path`` the result is saved and reused on the next run, as long as
-    it covers every job_id in ``jobs``.
+    Returns job_id and skills (a sorted list per job). With
+    cache_path the result is saved and reused on the next run, as long as
+    it covers every job_id in jobs.
     """
     if cache_path is not None and Path(cache_path).exists():
         cached = pd.read_parquet(cache_path)
@@ -200,7 +199,7 @@ def skill_share_by_function(
 ) -> tuple[pd.DataFrame, pd.Series]:
     """Share of postings in each job function that mention each skill.
 
-    Returns ``(share, postings)``: one row per function, one column per skill
+    Returns (share, postings): one row per function, one column per skill
     (0 to 1), and the postings behind each row. Postings where no skill was
     found still count in the denominator.
     """
@@ -233,7 +232,7 @@ def signature_skills(
     lift = share of the function's postings that mention the skill, divided
     by the share of all postings that mention it. A lift of 3 means three
     times as common as in the market overall. Skills mentioned by fewer than
-    ``min_share`` of the function's postings are skipped, so rare words do not
+    min_share of the function's postings are skipped, so rare words do not
     win by chance.
     """
     merged = jobs[["job_id", "job_function"]].merge(job_skills, on="job_id", how="inner")
@@ -298,7 +297,7 @@ def skill_salary_premium(
     appears mostly in IT, which pays more anyway).
 
     Only full-time postings with a valid yearly USD salary are used. Within
-    a function, both groups need at least ``min_n`` postings.
+    a function, both groups need at least min_n postings.
     """
     paid = _valid_salary(jobs)[["job_id", "job_function", "salary_annual"]]
     paid = paid.merge(job_skills, on="job_id", how="inner")
@@ -337,8 +336,8 @@ def experience_paradox(jobs: pd.DataFrame, min_years: pd.Series,
                        levels: Iterable[str] | None = None) -> pd.DataFrame:
     """Years of experience asked for, by LinkedIn experience level.
 
-    ``min_years`` is one number per posting (NaN when none is stated), from
-    ``text_signals.min_years_required``. For each level: how many postings
+    min_years is one number per posting (NaN when none is stated), from
+    text_signals.min_years_required. For each level: how many postings
     state a number, and among those, the share asking for 2+, 3+ and 5+ years.
     """
     df = pd.DataFrame({"level": jobs["experience_level"], "years": min_years.to_numpy()})
@@ -360,9 +359,9 @@ def experience_paradox(jobs: pd.DataFrame, min_years: pd.Series,
 
 def mix_by_group(jobs: pd.DataFrame, by: str, values: pd.Series,
                  order: Iterable[str], min_n: int = 1000, top: int | None = 12) -> pd.DataFrame:
-    """Share of each category of ``values`` within each group (rows sum to 1).
+    """Share of each category of values within each group (rows sum to 1).
 
-    Used for degree level by job function. ``order`` fixes the column order.
+    Used for degree level by job function. order fixes the column order.
     """
     df = pd.DataFrame({by: jobs[by].to_numpy(), "value": values.to_numpy()})
     df = _explode_if_list(df, by)
@@ -390,8 +389,8 @@ def salary_ranges(
     """Median and middle 50% of yearly USD salary per group.
 
     Full-time only by default, so annualized hourly pay of part-time jobs
-    does not pull numbers down. Values outside ``bounds`` count as entry
-    errors; ``info`` reports how many were dropped at each step.
+    does not pull numbers down. Values outside bounds count as entry
+    errors; info reports how many were dropped at each step.
     """
     df = jobs[jobs["salary_annual"].notna()]
     info = {"with_salary": len(df)}
@@ -449,7 +448,7 @@ def remote_pay_gap(jobs: pd.DataFrame, by: str = "job_function", min_n: int = 10
 
 
 def add_pay_transparency_flag(jobs: pd.DataFrame) -> pd.DataFrame:
-    """Add ``transparency_law``: True when the posting's state required salary
+    """Add transparency_law: True when the posting's state required salary
     ranges on the day the posting was listed. Postings without a state or a
     date get NaN."""
     start = jobs["state"].map(PAY_TRANSPARENCY_START)
@@ -467,8 +466,8 @@ def add_pay_transparency_flag(jobs: pd.DataFrame) -> pd.DataFrame:
 
 def rate_by_group(jobs: pd.DataFrame, by: str, flag: str = "salary_disclosed",
                   min_n: int = 500) -> pd.DataFrame:
-    """Share of postings in each group where ``flag`` is true (groups with
-    fewer than ``min_n`` postings are left out)."""
+    """Share of postings in each group where flag is true (groups with
+    fewer than min_n postings are left out)."""
     df = _explode_if_list(jobs[[by, flag]].dropna(subset=[flag]), by)
     df = df.assign(**{flag: df[flag].astype(bool)})
     table = df.groupby(by)[flag].agg(postings="size", rate="mean")
@@ -494,7 +493,7 @@ def competition_by_group(jobs: pd.DataFrame, by: str = "job_function", min_n: in
 
 
 def missing_by_group(jobs: pd.DataFrame, by: str, column: str) -> pd.DataFrame:
-    """How many postings per group have no value in ``column``."""
+    """How many postings per group have no value in column."""
     df = _explode_if_list(jobs[[by, column]], by)
     empty = df[column].apply(
         lambda v: v is None or (_is_list(v) and len(v) == 0) or (isinstance(v, float) and np.isnan(v))

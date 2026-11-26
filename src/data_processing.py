@@ -1,13 +1,13 @@
-"""Load, clean and audit the LinkedIn Job Postings (2023-2024) dataset.
+"""Week 1: load, clean and audit the LinkedIn Job Postings dataset.
 
 Source: https://www.kaggle.com/datasets/arshkon/linkedin-job-postings
 
-The main entry point is ``build_clean_jobs``. It returns one row per U.S.
-posting with the shared columns other modules use (see SHARED_INTERFACES.md):
+build_clean_jobs is the function to call. It gives one row per U.S. posting
+with the shared columns the rest of the team uses (see SHARED_INTERFACES.md):
 job_id, title, description, location, job_function, industry, plus salary,
-company and location detail columns.
+company and location columns.
 
-Rules used here were checked against the full dataset on Nov 5-8, 2026:
+I checked these rules on the full dataset on Nov 5-8, 2026:
 - postings.csv has 123,849 rows and every job_id is unique.
 - A posting has 1 to 3 job-function tags, so tags are kept as a list.
 - normalized_salary matches our own yearly conversion of USD salaries
@@ -15,9 +15,9 @@ Rules used here were checked against the full dataset on Nov 5-8, 2026:
 - Locations come in four U.S. formats ("City, ST", "United States",
   "State, United States", metro names). 76 rows match none of them and
   are dropped.
-- 4,718 postings repeat an earlier one exactly (same company, title,
+- 4,671 postings repeat an earlier one exactly (same company, title,
   description and location) and are dropped. Postings with the same text in
-  different cities are kept and counted in ``same_text_postings``.
+  different cities are kept and counted in same_text_postings.
 """
 
 from __future__ import annotations
@@ -28,7 +28,7 @@ from pathlib import Path
 import pandas as pd
 
 # ---------------------------------------------------------------------------
-# File layout of the Kaggle download (paths relative to the raw data folder)
+# where each file is inside the Kaggle download (relative to the raw data folder)
 # ---------------------------------------------------------------------------
 
 RAW_FILES = {
@@ -41,7 +41,7 @@ RAW_FILES = {
     "industries_map": "mappings/industries.csv",
 }
 
-# Columns each table must have. check_schema() reports anything missing.
+# columns I need from each table, check_schema() tells me if one is missing
 REQUIRED_COLUMNS = {
     "postings": [
         "job_id", "company_id", "company_name", "title", "description",
@@ -97,7 +97,7 @@ US_STATE_NAMES = {
 }
 
 # Metro names such as "San Francisco Bay Area" or "Greater Boston".
-# All 202 distinct metro names in the dataset were checked by hand: all U.S.
+# I went through all 202 metro names in the dataset by hand: all are U.S.
 METRO_PATTERN = r"Metropolitan Area|Metroplex|Metro\b|Bay Area|^Greater |Area$"
 
 KEPT_LOCATION_TYPES = ("city_state", "state_name", "metro_area", "country_only")
@@ -156,7 +156,7 @@ def classify_location(location: pd.Series) -> pd.DataFrame:
       missing       empty or NaN
       other         anything else (foreign places, "NAMER", vague regions)
 
-    Returns a DataFrame with columns ``location_type`` and ``state``
+    Returns a DataFrame with columns location_type and state
     (two-letter code, or NaN when the place has no single state).
     """
     loc = location.fillna("").astype(str).str.strip()
@@ -255,9 +255,9 @@ def _text_key(postings: pd.DataFrame) -> pd.DataFrame:
 def find_content_duplicates(postings: pd.DataFrame, include_location: bool = True) -> pd.Series:
     """Flag repeat postings: same company, title and description as an earlier row.
 
-    With ``include_location=True`` (the default) the location must match too.
+    With include_location=True (the default) the location must match too.
     On the full data, 12,746 postings share text with an earlier one, but only
-    4,718 of them are in the same place. The rest are the same job posted in
+    4,671 of them are in the same place. The rest are the same job posted in
     several cities, which count as separate openings.
 
     The first copy is not flagged. Postings with an empty description are
@@ -292,7 +292,7 @@ def build_clean_jobs(
 ) -> tuple[pd.DataFrame, dict]:
     """Build the cleaned, U.S.-only postings table.
 
-    Returns ``(clean_jobs, log)``. ``log`` records row counts at each step
+    Returns (clean_jobs, log). log records row counts at each step
     so the audit can report what was removed and why.
     """
     log = {}
@@ -301,7 +301,7 @@ def build_clean_jobs(
     log["duplicate_job_ids"] = int(postings["job_id"].duplicated().sum())
     postings = postings.drop_duplicates(subset="job_id", keep="first")
 
-    # Company name: fill gaps from companies.csv when company_id is known.
+    # some postings have no company name, so I fill it from companies.csv when company_id is there
     names = tables["companies"].drop_duplicates("company_id").set_index("company_id")["name"]
     postings["company_name"] = postings["company_name"].fillna(postings["company_id"].map(names))
 
@@ -313,7 +313,7 @@ def build_clean_jobs(
     log["rows_dropped_not_us"] = int((~is_us).sum())
     postings = postings[is_us]
 
-    # Duplicates: drop exact copies in the same place, keep multi-city postings.
+    # drop exact copies in the same place, but keep the same job posted in different cities
     log["same_text_any_location"] = int(find_content_duplicates(postings, include_location=False).sum())
     is_dup = find_content_duplicates(postings, include_location=True)
     log["content_duplicates_same_location"] = int(is_dup.sum())
@@ -322,7 +322,7 @@ def build_clean_jobs(
     postings["same_text_postings"] = count_same_text(postings)
     log["rows_in_multi_city_groups"] = int((postings["same_text_postings"] > 1).sum())
 
-    # Labels: collapse to lists first, then attach. Row count must not change.
+    # turn the label tables into one list per posting first, then merge (row count should not change)
     n_before = len(postings)
     job_function = build_job_functions(tables["job_skills"], tables["skills_map"])
     job_industry = build_job_industries(tables["job_industries"], tables["industries_map"])
@@ -438,7 +438,7 @@ def save_clean_jobs(clean: pd.DataFrame, out_dir: str | Path, sample_size: int =
 
 
 def load_clean_jobs(path: str | Path = "data/processed/clean_jobs.parquet") -> pd.DataFrame:
-    """Load the cleaned table. Other modules call this to get ``clean_jobs``."""
+    """Load the cleaned table. Other modules call this to get clean_jobs."""
     return pd.read_parquet(path)
 
 

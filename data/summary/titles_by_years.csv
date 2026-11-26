@@ -1,0 +1,49 @@
+years_group,title_norm,postings,median_salary
+1 year,registered nurse,443,99000.0
+1 year,medical assistant,128,46000.0
+1 year,rn,117,125000.0
+1 year,travel,115,26000.0
+1 year,customer service representative,111,41000.0
+1 year,software engineer,109,167000.0
+1 year,associate,96,61000.0
+1 year,assistant manager,94,43000.0
+2 to 3,accountant,322,78000.0
+2 to 3,manager,308,125000.0
+2 to 3,registered nurse,208,128000.0
+2 to 3,software engineer,201,158000.0
+2 to 3,project manager,146,112000.0
+2 to 3,account executive,146,94000.0
+2 to 3,salesperson,130,
+2 to 3,financial analyst,124,99000.0
+4 to 5,manager,238,134000.0
+4 to 5,project manager,176,123000.0
+4 to 5,software engineer,173,146000.0
+4 to 5,accountant,141,88000.0
+4 to 5,director,137,193000.0
+4 to 5,product manager,102,163000.0
+4 to 5,account executive,75,110000.0
+4 to 5,controller,73,125000.0
+6 to 9,manager,147,145000.0
+6 to 9,director,136,204000.0
+6 to 9,software engineer,108,188000.0
+6 to 9,project manager,95,138000.0
+6 to 9,product manager,42,202000.0
+6 to 9,tax manager,38,145000.0
+6 to 9,electrical engineer,37,122000.0
+6 to 9,controller,35,144000.0
+10+,sales manager,356,238000.0
+10+,director,216,214000.0
+10+,project manager,66,144000.0
+10+,vice president,53,210000.0
+10+,manager,50,183000.0
+10+,software engineer,39,170000.0
+10+,vp,36,219000.0
+10+,program manager,35,192000.0
+Not stated,registered nurse,840,89000.0
+Not stated,certified nursing assistant,456,45000.0
+Not stated,licensed practical nurse,430,62000.0
+Not stated,customer service representative,419,41000.0
+Not stated,sales associate,410,36000.0
+Not stated,retail sales associate,381,33000.0
+Not stated,project manager,321,110000.0
+Not stated,assistant store manager,302,45000.0
