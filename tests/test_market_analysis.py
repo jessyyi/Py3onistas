@@ -1,5 +1,5 @@
-"""Unit tests for market_analysis.py, text_signals.py and market_plots.py,
-run on a tiny made-up table."""
+"""Tests for market_analysis.py, text_signals.py and market_plots.py.
+I run them on a tiny made-up table so I can check the answers by hand."""
 
 import math
 from datetime import date

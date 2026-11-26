@@ -1,0 +1,39 @@
+industry,rank,skill,share,postings
+CS/IT,1,Agile,0.1388,19261
+CS/IT,2,SQL,0.1313,19261
+CS/IT,3,Excel,0.1264,19261
+CS/IT,4,Python,0.114,19261
+Health care,1,Patient Care,0.408,16183
+Health care,2,CPR,0.1512,16183
+Health care,3,Excel,0.0748,16183
+Health care,4,Electronic Medical Records,0.0697,16183
+Retail,1,Inventory Management,0.0913,10745
+Retail,2,Excel,0.0695,10745
+Finance,1,Excel,0.2038,8656
+Finance,2,Risk Management,0.1302,8656
+Finance,3,Agile,0.1058,8656
+Finance,4,Project Management,0.0891,8656
+Manufacturing,1,Excel,0.204,7992
+Manufacturing,2,Project Management,0.0925,7992
+Manufacturing,3,SAP,0.0749,7992
+Manufacturing,4,CRM,0.0455,7992
+"Hospitality, food and leisure",1,Excel,0.1091,4721
+"Hospitality, food and leisure",2,Project Management,0.0375,4721
+"Hospitality, food and leisure",3,Forecasting,0.0356,4721
+"Hospitality, food and leisure",4,Budgeting,0.0307,4721
+"Business, legal and HR services",1,Excel,0.2103,3865
+"Business, legal and HR services",2,Project Management,0.1309,3865
+"Business, legal and HR services",3,Agile,0.066,3865
+"Business, legal and HR services",4,Data Analysis,0.0455,3865
+"Media, marketing and arts",1,Excel,0.2073,3415
+"Media, marketing and arts",2,Project Management,0.1291,3415
+"Media, marketing and arts",3,CRM,0.1001,3415
+"Media, marketing and arts",4,SEO,0.0471,3415
+Education,1,Excel,0.1306,3139
+Education,2,Project Management,0.0841,3139
+Education,3,Statistics,0.0618,3139
+Education,4,Data Analysis,0.0494,3139
+Pharma and biotech,1,Excel,0.2278,2968
+Pharma and biotech,2,Project Management,0.1523,2968
+Pharma and biotech,3,Data Analysis,0.0745,2968
+Pharma and biotech,4,CRM,0.0728,2968

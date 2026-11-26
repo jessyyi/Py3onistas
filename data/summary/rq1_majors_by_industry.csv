@@ -1,0 +1,46 @@
+industry,rank,major,share,postings
+CS/IT,1,Computer Science,0.4397,6588
+CS/IT,2,Engineering,0.3355,6588
+CS/IT,3,Business,0.2951,6588
+Health care,1,Nursing,0.5041,3325
+Health care,2,Business,0.182,3325
+Health care,3,Psychology / Social Sciences,0.1386,3325
+Finance,1,Business,0.3973,3141
+Finance,2,Finance,0.39,3141
+Finance,3,Accounting,0.2369,3141
+Manufacturing,1,Engineering,0.4609,2842
+Manufacturing,2,Business,0.379,2842
+Manufacturing,3,Marketing / Communications,0.1235,2842
+Pharma and biotech,1,Engineering,0.3268,1426
+Pharma and biotech,2,Business,0.3226,1426
+Pharma and biotech,3,Life / Physical Sciences,0.3001,1426
+"Business, legal and HR services",1,Business,0.3236,1295
+"Business, legal and HR services",2,Engineering,0.2602,1295
+"Business, legal and HR services",3,Accounting,0.2378,1295
+Construction,1,Engineering,0.6974,1170
+Construction,2,Business,0.1795,1170
+Construction,3,Design / Arts,0.1462,1170
+Energy and utilities,1,Engineering,0.5909,1139
+Energy and utilities,2,Business,0.3064,1139
+Energy and utilities,3,Finance,0.1422,1139
+"Media, marketing and arts",1,Marketing / Communications,0.4178,1101
+"Media, marketing and arts",2,Business,0.3324,1101
+"Media, marketing and arts",3,Engineering,0.1589,1101
+Retail,1,Business,0.4271,953
+Retail,2,Marketing / Communications,0.2697,953
+Retail,3,Statistics / Mathematics,0.1154,953
+Education,1,Business,0.2715,884
+Education,2,Education,0.2149,884
+Education,3,Psychology / Social Sciences,0.1176,884
+Aerospace and defense,1,Engineering,0.7007,745
+Aerospace and defense,2,Computer Science,0.2497,745
+Aerospace and defense,3,Statistics / Mathematics,0.1839,745
+"Hospitality, food and leisure",1,Business,0.5838,692
+"Hospitality, food and leisure",2,Marketing / Communications,0.263,692
+"Hospitality, food and leisure",3,Finance,0.1315,692
+Transportation and logistics,1,Business,0.5242,578
+Transportation and logistics,2,Supply Chain / Logistics,0.3028,578
+Transportation and logistics,3,Engineering,0.2318,578
+Government and public safety,1,Business,0.2894,577
+Government and public safety,2,Engineering,0.2669,577
+Government and public safety,3,Psychology / Social Sciences,0.1785,577
